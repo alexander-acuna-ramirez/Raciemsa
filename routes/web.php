@@ -22,3 +22,5 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
+Route::resource("/entryvoucher",\App\Http\Controllers\EntryVoucherController::class);
+Route::get("/searchGuide/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchGuide']);

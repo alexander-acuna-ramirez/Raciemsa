@@ -33,8 +33,15 @@
             <i class="fas fa-book"></i>
             <span>Catalogos</span></a>
     </li>
-    
-
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Documentos
+    </div>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('entryvoucher')}}">
+            <i class="fas fa-book"></i>
+            <span>Vales de entrada</span></a>
+    </li>
 
 
 
