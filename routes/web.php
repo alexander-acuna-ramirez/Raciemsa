@@ -22,3 +22,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
+
+Route::resource("/CorrectionRequest",\App\Http\Controllers\CorrectionRequestController::class);
+Route::resource("/Corrections",\App\Http\Controllers\CorrectionsController::class);
+
+route::get('storeprocedure','Controllers\CorrectionsController@storeprocedure');

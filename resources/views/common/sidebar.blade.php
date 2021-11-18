@@ -33,9 +33,16 @@
             <i class="fas fa-book"></i>
             <span>Catalogos</span></a>
     </li>
-    
+ 
 
-
+    <div class="sidebar-heading">
+        Documentos
+    </div>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('CorrectionRequest')}}">
+            <i class="fas fa-book"></i>
+            <span>Solicitudes de Correcciones</span></a>
+    </li>
 
 
     <!-- Heading -->
