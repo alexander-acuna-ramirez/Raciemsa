@@ -3,31 +3,61 @@
 @section('content')
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Catalogos</h1>
+        <h1 class="h3 mb-0 text-gray-800">Materiales</h1>
     </div>
+    <div class="col-md-6" style="float:none;margin:auto;">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Crear catalogo</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Crear Material</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body ">
             <div> 
-                <form action="{{url("/catalog")}}" class="" method="post">
+                <form action="{{url('/material/store')}}" class="" method="post">
                     @csrf
-                    <div class="row">
-                        <div class="col-5">
-                            <label for="ID_Catalogo">Codigo</label>
-                            <input type="text" class="form-control" readonly name="ID_Catalogo" id="ID_Catalogo" value="{{ $Next }}">
+                    <div class="form-group">
+                            
+                    <div class="form-group">
+                        
+                        <div class="form-group col-md-12">
+                            <label for="Numero_de_parte">Numero de parte</label>
+                            <input type="text" class="form-control" name="Numero_de_parte" id="Numero_de_parte">
+                        </div> 
+                        
+                        
+                        <div class="form-group col-md-12">
+                            <label for="Descripcion">Descripcion</label>
+                            <input type="text" class="form-control" name="Descripcion" id="Descripcion">
+                        </div>  
+                        <div class="form-group  col-md-6">
+                            <label for="ID_Catalogo">ID Catalogo</label>
+                            <input type="text" class="form-control" name="ID_Catalogo" id="ID_Catalogo">
+                        </div> 
+                       
+                        <div class="input-group mb-3 col-md-12">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" >Unidad de medida</label>
                         </div>
-    
-                        <div class="col-7">
-                            <label for="Ubicacion">Ubicacion</label>
-                            <input type="text" class="form-control" name="Ubicacion" id="Ubicacion">
-                            @error('name')
-                                <br>
-                                    <small>{{$message}}</small>
-                                <br>
-                            @enderror
+                        <select class="custom-select" id="Unidad_de_medida" name="Unidad_de_medida" >
+                            <option selected>Seleccione...</option>
+                            <option value="UND">Unidad</option>
+                            <option value="LTR">Litro</option>
+                            <option value="JGO">Juego</option>
+                            <option value="GAL">Galones</option>
+                        </select>
                         </div>
+                        
+        
+                        <div class="form-group col-md-6">
+                            <label for="Codigo_sap">Codigo SAP</label>
+                            <input type="text" class="form-control" name="Codigo_sap" id="Codigo_sap">
+                        </div>  
+                         
+                   
+                        <div class="form-group col-md-3">
+                            <label for="Cotizacion">Cotizacion</label>
+                            <input type="number" step="0.01"  class="form-control" name="Cotizacion" id="Cotizacion">
+                        </div>  
+                     
                         
                     </div>
 
@@ -55,8 +85,9 @@
                     </div>
                 
                 </form>
+           
+                </div>
             </div>
-        </div>
     </div>
 </div>
 @endsection

@@ -22,3 +22,9 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
+Route::post('/material/store', [App\Http\Controllers\CatalogController::class, 'storeMaterial']);
+Route::get('/material/create', [App\Http\Controllers\CatalogController::class, 'createMaterial']);
+Route::get('/material/edit', [App\Http\Controllers\CatalogController::class, 'editMaterial']);
+Route::post('/material/update', [App\Http\Controllers\CatalogController::class, 'updateMaterial']);
+
+

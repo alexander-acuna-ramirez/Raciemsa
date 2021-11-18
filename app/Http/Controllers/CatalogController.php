@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Catalog;
+use App\Models\Material;
 use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     public function index()
     {
         $datos = Catalog::orderBy("ID_Catalogo","DESC")->paginate(5);
-        return view('catalog.index',compact('datos'));
+        $datosM = Material::orderBy("Numero_de_parte","DESC")->paginate(5);
+
+        return view('catalog.index')->with("Next",$this->calculateID())->with('datos',$datos)->with('datosM',$datosM);
     }
 
     public function create()
@@ -27,7 +30,7 @@ class CatalogController extends Controller
     {
         $request->validate([
             'ID_Catalogo' => 'required|max:8|min:8',
-            'Ubicacion' => 'required|max:4|min:4|alpha_num',
+            'Ubicacion' => 'required|max:4|min:4|numeric',
         ]);
         $data = $request->except("_token");
         Catalog::insert($data);
@@ -59,7 +62,7 @@ class CatalogController extends Controller
     {
         $request->validate([
             'ID_Catalogo' => 'required|max:8|min:8',
-            'Ubicacion' => 'required|max:4|min:4|alpha_num',
+            'Ubicacion' => 'required|max:4|min:4|num',
         ]);
         $catalog->update($request->except("_token"));
         return redirect('/catalog');
@@ -70,5 +73,41 @@ class CatalogController extends Controller
     {
         Catalog::destroy($id);
         return redirect('/catalog');
+    }
+
+    public function storeMaterial(Request $request)
+    {
+        $request->validate([
+            'Numero_de_parte' => 'required|max:10|min:10|alpha_num',
+            'Descripcion' => 'required',
+            'ID_Catalogo' => 'required|max:8|min:8|alpha_num',
+            'Unidad_de_medida' => 'required|max:3|min:3|alpha',
+            'Codigo_sap' => 'required|max:7|min:7|alpha_num',
+            'Cotizacion' => 'required|max:7|min:7|numeric',
+        ]);
+        $dataMaterial = $request->except("_token");
+        Material::insert($dataMaterial);
+        //return response()->json(["ENVIADOS"=>$request->except("_token")]);
+        return redirect('/catalog');
+        
+    }
+
+    public function createMaterial()
+    {
+        return view('catalog.create');
+    }
+    public function editMaterial(Request $request, Catalog $catalog)
+    {
+        $request->validate([
+            'Numero_de_parte' => 'required|max:10|min:10|alpha_num',
+            'Descripcion' => 'required',
+            'ID_Catalogo' => 'required|max:8|min:8|alpha_num',
+            'Unidad_de_medida' => 'required|max:3|min:3|alpha',
+            'Codigo_sap' => 'required|max:7|min:7|alpha_num',
+            'Cotizacion' => 'required|max:7|min:7|numeric',
+        ]);
+        $catalog->update($request->except("_token"));
+        //return redirect('/catalog');
+        //return response()->json(["msg"=>"Something new"]);
     }
 }
