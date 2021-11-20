@@ -33,6 +33,12 @@
             <i class="fas fa-book"></i>
             <span>Catalogos</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('RequestForReinstatement')}}">
+            <i class="fas fa-book"></i>
+            <span>Solicitudes de Reposicion</span></a>
+    </li>
+    
     
 
 

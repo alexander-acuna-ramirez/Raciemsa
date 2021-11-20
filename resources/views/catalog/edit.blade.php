@@ -11,7 +11,8 @@
         </div>
         <div class="card-body">
             <div> 
-                <form action="{{url("/catalog/".$catalog->ID_Catalogo)}}" class="" method="post">
+
+                <form action="{{url('/catalog/'.$catalog->ID_Catalogo)}}" class="" method="post">
                     @csrf
                     {{ method_field('PUT') }}
                     <div class="row">
