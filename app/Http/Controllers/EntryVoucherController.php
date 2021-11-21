@@ -30,7 +30,34 @@ class EntryVoucherController extends Controller
 
     public function store(Request $request)
     {
+        DB::select("call sv_obtener_ultimo_codigo(@id)");
+        $convert = DB::select('select @id as last');
+        $calculated = strval(intval($convert[0]->last) + 1);
+        $calculated = strlen($calculated) < 8 ? str_repeat("0",8 - strlen($calculated)).$calculated : $calculated;
+        try{
 
+            $cabecera = new EntryVoucher();
+            $cabecera->ID_vale_entrada = $calculated;
+            $cabecera->Codigo_guia_remision = $request->Codigo_guia_remision;
+            $cabecera->Hora = $request->Hora;
+            $cabecera->Fecha_recepcion = $request->Fecha;
+
+            $cabecera->save();
+
+            foreach ($request->Entradas as $entrada) {
+                DB::table('entradas')->insert([
+                    "ID_vale_entrada"=>$calculated,
+                    "Numero_de_parte"=>$entrada['Numero_de_parte'],
+                    "Cantidad_recibida"=>$entrada['Cantidad'],
+                    "Observacion"=>$entrada['Observacion'],
+                    "Status"=>$entrada['Status'] == true ? 1 : 0,
+                ]);
+            }
+
+            return response()->json(["msg"=>"Ok"],200);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(),500);
+        }
     }
 
 
@@ -65,6 +92,41 @@ class EntryVoucherController extends Controller
         }
 
     }
+
+    public function saveEntries(Request $request){
+
+        /*
+        DB::select("call sv_obtener_ultimo_codigo(@id)");
+        $convert = DB::select('select @id as last');
+        $calculated = strval(intval($convert[0]->last) + 1);
+        $calculated = strlen($calculated) < 8 ? str_repeat("0",8 - strlen($calculated)).$calculated : $calculated;
+        try{
+
+            $cabecera = new EntryVoucher();
+            $cabecera->ID_vale_entrada = $calculated;
+            $cabecera->Codigo_guia_remision = $request->Codigo_guia_remision;
+            $cabecera->Hora = $request->Hora;
+            $cabecera->Fecha_recepcion = $request->Fecha;
+
+            $cabecera->save();
+
+            foreach ($request->Entradas as $entrada) {
+                DB::table('entradas')->insert([
+                    "ID_vale_entrada"=>$calculated,
+                    "Numero_de_parte"=>$entrada['Numero_de_parte'],
+                    "Cantidad_recibida"=>$entrada['Cantidad'],
+                    "Observacion"=>$entrada['Observacion'],
+                    "Status"=>$entrada['Status'] == true ? 1 : 0,
+                ]);
+            }
+
+            return response()->json(["msg"=>"Ok"],200);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(),500);
+        }*/
+    }
+
+
     /*CONVERTIR A PROCEDIMIENTO*/
     public function searchGuide($code){
         /*return response()->json(['msg'=>$code]);*/
@@ -79,7 +141,18 @@ class EntryVoucherController extends Controller
                 ->where('guia_de_remision.Codigo_guia_remision','=',$code)
                 ->get();
         return response()->json($data);
+    }
+    public function searchProduct($code){
+        /*return response()->json(['msg'=>$code]);*/
 
+        $data = DB::table('Material')
+            ->select('Numero_de_parte',
+                'Descripcion',
+                'Unidad_de_medida',
+                'Codigo_sap')
+            ->where('Numero_de_parte','=',$code)
+            ->get();
+        return response()->json($data);
     }
 
 }

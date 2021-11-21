@@ -33,14 +33,16 @@
                                     <form action="{{url('/entryvoucher/'.$data->ID_vale_entrada)}}" method="post"
                                     class="formActions">
                                         <a class="btn btn-success" href="{{ url('/entryvoucher/'.$data->ID_vale_entrada) }}">
-                                            <span class="text">Mostrar</span>
+                                            <i class="fas fa-eye"></i>
                                         </a>
                                         <a class="btn btn-warning" href="#">
-                                            <span class="text">Editar</span>
+                                            <i class="fas fa-pencil-alt"></i>
                                         </a>
                                         @csrf
                                         {{ method_field('DELETE') }}
-                                        <input type="submit" class="btn btn-danger " value="Borrar">
+                                        <button type="submit" class="btn btn-danger " value="Borrar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

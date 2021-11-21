@@ -23,4 +23,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
 Route::resource("/entryvoucher",\App\Http\Controllers\EntryVoucherController::class);
+Route::post("/createEntrances",[App\Http\Controllers\EntryVoucherController::class, 'saveEntrances']);
 Route::get("/searchGuide/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchGuide']);
+Route::get("/searchProduct/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchProduct']);
+Route::post("/saveEntries",[App\Http\Controllers\EntryVoucherController::class, 'saveEntries']);
