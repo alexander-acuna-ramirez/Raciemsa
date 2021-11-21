@@ -22,3 +22,8 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
+Route::resource("/supplier",\App\Http\Controllers\SupplierController::class);
+Route::get("/searchPhone{id}",[App\Http\Controllers\SupplierController::class, 'searchPhone']);
+Route::get("/searchEmail/{id}",[App\Http\Controllers\SupplierController::class, 'searchEmail']);
+Route::get("/searchAddress/{id}",[App\Http\Controllers\SupplierController::class, 'searchAddress']);
+Route::get("/searchAddress/{id}",[App\Http\Controllers\SupplierController::class, 'searchAddress']);

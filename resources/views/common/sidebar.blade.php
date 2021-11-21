@@ -34,6 +34,11 @@
             <span>Catalogos</span></a>
     </li>
     
+    <li class="nav-item">
+    <a class="nav-link" href="{{url('supplier')}}">
+        <i class="fas fa-book"></i>
+        <span>Proveedores</span></a>
+    </li>
 
 
 
