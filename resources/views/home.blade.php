@@ -328,5 +328,9 @@
         </div>
     </div>
 
+    <script>
+        Swal.fire("Bienvenido")
+    </script>
+    
 </div>
 @endsection

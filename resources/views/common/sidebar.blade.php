@@ -33,7 +33,14 @@
             <i class="fas fa-book"></i>
             <span>Catalogos</span></a>
     </li>
-    
+    <div class="sidebar-heading">
+        Documentos
+    </div>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('guide')}}">
+            <i class="fas fa-book"></i>
+            <span>Guía de remisión</span></a>
+    </li>
 
 
 

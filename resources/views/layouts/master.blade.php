@@ -23,6 +23,8 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
+    <script src="{{asset('/js/app.js')}}"></script>
+
 </head>
 
 <body id="page-top">
@@ -97,11 +99,11 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{asset('admin/vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- <script src="{{asset('admin/vendor/jquery/jquery.min.js')}}"></script> -->
+    <!-- <script src="{{asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script> -->
 
     <!-- Core plugin JavaScript-->
-    <script src="{{asset('admin/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+    <!-- <script src="{{asset('admin/vendor/jquery-easing/jquery.easing.min.js')}}"></script> -->
 
     <!-- Custom scripts for all pages-->
     <script src="{{asset('admin/js/sb-admin-2.min.js')}}"></script>
@@ -114,5 +116,5 @@
     <script src="{{asset('admin/js/demo/chart-pie-demo.js')}}"></script>
 
 </body>
-
+@yield('js')
 </html>
