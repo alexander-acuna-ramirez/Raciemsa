@@ -27,6 +27,7 @@
                             <tr>
                                 <td>{{$data->ID_Catalogo}}</td>
                                 <td>{{$data->Ubicacion}}</td>
+                                
                                 <td>
                                     <!--<a class="btn btn-success" href="{{url('/catalog/'.$data->ID_Catalogo.'/edit')}}">
                                         Editar

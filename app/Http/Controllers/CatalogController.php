@@ -50,9 +50,8 @@ class CatalogController extends Controller
 
     public function edit(Catalog $catalog)
     {
-        //return response()->json(["msg"=>$catalog]);
-        return view('catalog.edit',compact('catalog'));
-    }
+        //
+    }   
 
 
     public function update(Request $request, Catalog $catalog)

@@ -14,7 +14,9 @@ class SupplierController extends Controller
     }
     public function index()
     {
-        $datos = Supplier::orderBy("Codigo_proveedor","DESC")->paginate(5);
+        
+        $datos=DB::select('call sp_Mostrar_proveedor()');
+       // $datos = Supplier::where('Estado_proveedor',1)->orderBy("Codigo_proveedor","DESC")->paginate(5);
         return view('supplier.index',compact('datos'));
     }
 
@@ -25,15 +27,77 @@ class SupplierController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'Codigo_Proveedor' => 'required|max:10|min:10',
-            'Razon_social' =>  'required|max:50|min:5',
-            'RUC' => 'required|max:11|min:11'
-        ]);
-        $data = $request->except("_token");
-        Supplier::insert($data);
-        return redirect('/supplier');
-    }
+        DB::select("call Ultimo_proveedor(@id)");
+        $convert = DB::select('select @id as last');
+        $calculated = strval(intval($convert[0]->last) + 1);
+        $calculated = strlen($calculated) < 10 ? str_repeat("0",10 - strlen($calculated)).$calculated : $calculated;
+
+        try{
+
+            $cabecera = new Supplier();
+            $cabecera->Codigo_proveedor = $calculated;
+            $cabecera->Razon_social = $request->Razon_social;
+            $cabecera->RUC = $request->RUC;
+            $cabecera->save();
+
+            DB::select("call Ultimo_telefono(@id)");
+            $convertPhone = DB::select('select @id as last');
+            $calculatedPhone = strval(intval($convertPhone[0]->last) + 1);
+            $calculatedPhone = strlen($calculatedPhone) < 5 ? str_repeat("0",5 - strlen($calculatedPhone)).$calculatedPhone: $calculatedPhone;
+            
+           /* $cabeceraPhone = new Phone();
+            $cabeceraPhone -> Codigo_proveedor = $convert;
+            $cabeceraPhone->Id_telefono = $calculatedPhone;
+            $cabeceraPhone->Telefono = $request->Telefono;
+            $cabeceraPhone->save();*/
+            
+
+            DB::select("call Ultimimo_direccion(@id)");
+            $convertAddress = DB::select('select @id as last');
+            $calculatedAddress = strval(intval($convertAddress[0]->last) + 1);
+            $calculatedAddress = strlen($calculatedAddress) < 5 ? str_repeat("0",5 - strlen($calculatedAddress)).$calculatedAddress: $calculatedAddress;
+            
+            /*$cabeceraAddress = new Address();
+            $cabeceraAddress -> Codigo_proveedor = $convert;
+            $cabeceraAddress->Id_direccion = $calculatedAddress;
+            $cabeceraAddress->Direccion = $request->Direccion;
+            $cabeceraAddress->save();*/
+
+            DB::select("call Ultimo_correo(@id)");
+            $convertEmail = DB::select('select @id as last');
+            $calculatedEmail = strval(intval($convertEmail[0]->last) + 1);
+            $calculatedEmail = strlen($calculatedEmail) < 5 ? str_repeat("0",5 - strlen($calculatedEmail)).$calculatedEmail: $calculatedEmail;
+            
+            /*$cabeceraEmail = new Email();
+            $cabeceraEmail -> Codigo_proveedor = $convert;
+            $cabeceraEmail->Id_correo = $calculatedEmail;
+            $cabeceraEmail->Correo = $request->Correo;
+            $cabeceraEmail->save();*/
+
+            foreach ($request-> Ttelefono as $telefono) {
+                DB::table('telefono')->insert([
+                    "Id_telefono"=>$calculatedPhone,
+                    "Telefono"=>$telefono['Telefono'],
+                ]);
+            }
+            foreach ($request-> Ccorreo as $correos) {
+                DB::table('telefono')->insert([
+                    "Id_telefono"=>$calculatedEmail,
+                    "Correo"=>$correos['Telefono'],
+                ]);
+            }
+            foreach ($request->Ddireccion as $direcciones) {
+                DB::table('telefono')->insert([
+                    "Id_telefono"=>$calculatedAddress,
+                    "Direccion"=>$direcciones['Telefono'],
+                ]);
+            }
+            return response()->json(["msg"=>"Ok"],200);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(),500);
+        }
+    } 
+    
 
     /*Convertir a procedimiento almacenado*/
     private function calculateID(){
@@ -56,19 +120,12 @@ class SupplierController extends Controller
     
     public function edit(Supplier $supplier)
     {
-        //
-        return view('supplier.edit', compact('supplier'));
+        //return response()->json(["msg"=>$catalog]);
     }
 
     public function update(Request $request, Supplier $supplier)
     {
-        /*$request->validate([
-            'Codigo_Proveedor' => 'required|max:10|min:10',
-            'Razon_social' =>  'required|max:50|min:5',
-            'RUC' => 'required|max:11|min:11'
-        ]);
-        $data = $request->except("_token");
-        return redirect('/supplier');*/
+        //
     }
 
     public function destroy($Id)
@@ -80,8 +137,24 @@ class SupplierController extends Controller
             return redirect()->route('supplier.index')->with('Eliminar','Bad');
         }
     }
+    public function saveEntries(Request $request){
+        //
+    }
+
+    public function searchSupplier(Request $request)
+    {
+        $cod=$_GET['Buscarpor'];
+        $datos = DB::select("call sp_buscar_proveedor_por_codigo('".$cod."')");
+        return view('supplier.codeSearch')->with(compact('datos'));
+    }
+
+  
+    public function SupplierRequestDisabled()
+    {
+        $datos = DB::select("call mostrar_proveedores_deshabilitados()");
+        return view('supplier.SupplierdisabledRequest')->with(compact('datos'));
+    }
     
-   
     public function searchEmail($code){
         
         $data = DB::table('correos')

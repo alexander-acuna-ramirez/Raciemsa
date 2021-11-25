@@ -1,4 +1,4 @@
-@extends('layouts.master')
+ @extends('layouts.master')
 
 @section('content')
 <div class="container-fluid">
@@ -16,7 +16,7 @@
                     {{ method_field('PUT') }}
                     <div class="row">
                         <div class="col-5">
-                            <label for="Codigo_proveedor">Codigo del proveedor</label>
+                            <label for="Codigo_proveedor">Código del proveedor</label>
                             <input type="text" class="form-control" readonly name="Codigo_proveedor" id="Codigo_proveedor" value="{{ $supplier->Codigo_proveedor }}">
                         </div>
     
@@ -33,12 +33,26 @@
                         <div class="col-5">
                             <label for="RUC">Numero de RUC</label>
                             <input type="text" class="form-control" name="RUC" id="RUC" value="{{ $supplier->RUC }}">
+                            @error('name')
+                                <br>
+                                    <small>{{$message}}</large>
+                                <br>
+                            @enderror
                         </div>
-                                                                                                
-
+                        
+                        <div class="col-6">
+                            <label for="Telefono">Telefono del proveedor</label>
+                            <div class="input-group flex-nowrap">
+                                <input id="Telefono" type="text" class="form-control" name="Telefono" value={{ $supplier->Telefono }}>
+                                <div class="input-group-append">
+                                    <button id="searchBtn" class="btn btn-primary border-0" type="button">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div> 
                     </div>
 
-                    
                     <div class="row mt-3">
                         <div class="col">
                             <a href="{{url()->previous()}}" class="btn btn-danger btn-icon-split float-right mx-1">
@@ -54,8 +68,6 @@
                                 </span>
                                 <span class="text">Guardar</span>
                             </button>
-
-                            
 
                         </div>
 

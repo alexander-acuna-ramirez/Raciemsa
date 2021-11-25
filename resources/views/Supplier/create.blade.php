@@ -1,107 +1,63 @@
-@extends('layouts.master')
+ @extends('layouts.master')
 
 @section('content')
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Proveedores</h1>
     </div>
-    <div class="card shadow mb-4">
-        <div class="card-header py-4">
-            <h6 class="m-0 font-weight-bold text-primary">Ingresar datos del nuevo Proveedor</h6>
-        </div>
-        <div class="card-body">
-            <div> 
-                <form action="{{url("/supplier")}}" class="" method="post">
-                    @csrf
+    <div class="card shadow mb-5">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Crear nuevo Proveedor</h6>
+            </div>
+            <div class="card-body">
+                    <div class="alert alert-danger d-none" id="alerts">
+                    </div>
                     <div class="row">
-                        <div class="col-5">
-                            <label for="Codigo_proveedor">Codigo del Proveedor</label>
-                            <input type="text" class="form-control" name="Codigo_proveedor" id="Codigo_proveedor" placeholder="Ingrese el codigo del proveedor" >
-                            @error('name')
-                                <br>
-                                    <small>{{$message}}</small>
-                                <br>
-                            @enderror
-                            </br>
+                        <div class="col-md-3 mt-2">
+                            <label for="Codigo_proveedor"> Codigo del Proveedor</label>
+                            <input type="text" readonly class="form-control"  name="Codigo_proveedor" id="Codigo_proveedor" >
                         </div>
-                        
-                        <div class="col-5">
+                        <div class="col-md-5 mt-2">
+                            <label for="Razon_Social">Razon Social </label>
+                            <input type="text" class="form-control" name="Razon_Social" id="Razon_Social" placeholder="Nombre de la empresa">
+                        </div>
+                        <div class="col-md-4 mt-2">
                             <label for="RUC">Numero de RUC</label>
-                            <input type="text" class="form-control"  name="RUC" id="RUC" placeholder="Ingrese RUC del proveedor">
-                            @error('name')
-                                <br>
-                                    <small>{{$message}}</small>
-                                <br>
-                            @enderror
-                        </div>
+                            <input type="text" class="form-control" name="Razon_social" id="Razon_social" placeholder="Debe tener 11 digitos">
     
-                        <div class="col-10">
-                            <label for="Razon_social">Razon Social</label>
-                            <input type="text" class="form-control" name="Razon_social" id="Razon_social" placeholder="Ingrese el nombre del proveedor">
-                            @error('name')
-                                <br>
-                                    <small>{{$message}}</small>
-                                <br>
-                            @enderror
-                            </br>
                         </div>
-
-                        <div class="col-5">
-                            <label for="Id_telefono">Telefono del proveedor</label>
-                            <input type="text" class="form-control" name="Id_telefono" id="Id_telefono" placeholder="Ingrese el telefono del proveedor">
-                            @error('name')
-                            <br>
-                                <large>{{$message}}</largel>
-                            </br>
-                            @enderror
-                        </div>
-                        <div class="col-5">
-                            <label for="Id_correo">Correo Electronico del proveedor</label>
-                            <input type="text" class="form-control" name="Id_correo" id="Id_correo" placeholder="Ingrese el correo electronico del proveedor">
-                                @error('name')
-                                <br>
-                                    <small>{{$message}}</small>
-                                </br>
-                                @enderror
-                                </br>
-                        </div>
-                        <div class="col-10">
-                            <label for="Id_direccion">Direccion</label>
-                            <input type="text" class="form-control" name="Id_direccion" id="Id_direccion" placeholder="Ingrese la direccion del proveedor">
-                                @error('name')
-                                    <br>
-                                        <small>{{$message}}</small>
-                                    </br>
-                                @enderror
-                        </div>
-   
+                        <br>
                     </div>
-
-                    <div class="row mt-3">
-                        <div class="col">
-                            <a href="{{url()->previous()}}" class="btn btn-danger btn-icon-split float-right mx-1">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-trash"></i>
-                                </span>
-                                <span class="text">Cancelar</span>
-                            </a>
-
-                            <button type="submit" class="btn btn-success btn-icon-split float-right mx-1">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-check"></i>
-                                </span>
-                                <span class="text">Agregar</span>
-                            </button>
-
-                            
-
-                        </div>
-
+                    <br>
+                <div class="row mt-2">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="80%" cellspacing="0" aling="center">
+                            <thead>
+                            <tr>
+                                <th width="20%">Telefono</th>
+                                <th width="20%">Correo</th>
+                                <th width="20%">Direccion</th>
+                                <th width="5%">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
-                
-                </form>
+                </div>
+                <div class="row mt-1 float-right">
+                    <button id="addSupplier" class="btn btn-primary" title="Agregar proveedor">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="btn btn-success mx-1" title="Guardar" id="saveDetails">
+                        <i class="fas fa-save"></i>
+                    </button>
+                    <a class="btn btn-danger" title="Cancelar" href="{{url('/supplier')}}">
+                        <i class="fas fa-ban"></i>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 </div>
+
 @endsection

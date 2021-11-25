@@ -15,10 +15,16 @@
                     <div class="col-md-5">
                         <label for="Razon_social">Nombre o Razon Social del proveedor: </label>
                         <input type="text" class="form-control" disabled name="Razon_social" id="Razon_social" value="{{ $supplier->Razon_social }}">
+                           
                     </div>
+                </div>
+                <DIV class="row">
+                    
+                </DIV>
+                <div class="row">
                     <div class="col-md-4">
                         <label for="RUC">Numero de RUC del proveedor: </label>
-                        <input type="text" class="form-control" disabled name="RUC" id="RUC" value="{{ $supplier->RUC }}">
+                        <input type="text" class="form-control" disabled name="RUC" id="RUC" value="{{ $supplier->RUC }}" >
                         <br>
                     </div>
                     <div class="col-md-5">
@@ -31,8 +37,9 @@
                             @endforeach
                         </tbody>
                     </div>
-
-                    <div class="col-md-6">
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
                         <label for="Direccion">Direccion del proveedor: </label>
                         <tbody type="text" class="form-contro l">
                             @foreach($address as $address)
@@ -42,8 +49,8 @@
                             @endforeach
                         </tbody>             
                     </div>
-
-                    <div class="col-md-7">
+                
+                    <div class="col-md-5">
                         <label for="Telefono">Telefono del proveedor: </label>
                         <table class="table table-borderless">
                             <tbody type="text" class="form-contro l">
@@ -53,8 +60,21 @@
                                     </tr>
                                 @endforeach
                             </tbody>    
+                        </table>                                                 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class=" table table-bordered" width="20%">
+                            <thead>
+                                <th>
+                                    Telefono
+                                </th>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
                         </table>
-                                                  
                     </div>
                 </div>
             </div>

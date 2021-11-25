@@ -17,5 +17,6 @@ class Supplier extends Model
     protected $fillable =[
         'Razon_social',
         'RUC'
+
     ];
 }
