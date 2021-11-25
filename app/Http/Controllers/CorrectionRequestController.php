@@ -5,26 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\CorrectionRequest;
 use App\Models\Corrections;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+
 use DB;
 
 class CorrectionRequestController extends Controller
 {
-    public function __construct()
-    {
-        
-    }
+    public function __construct(){}
+
     public function index(Request $request)
     {
         $cod=$request->get('Buscarpor');
-        $datos = DB::select("call mostrar_solicitudes_habilitadas()");
-                   
-        //$datos = CorrectionRequest::orderBy("Codigo_solicitud_correccion","DESC")
-        //    ->where('Codigo_solicitud_correccion','like',"%$cod%")->paginate();
-        
+        $datos = DB::select("call mostrar_solicitudes_habilitadas()");        
         return view('CorrectionRequest.index',compact('datos'));
     
     }
-    public function showCorrections($codigo)
+    /*public function showCorrections($codigo)
     {
         $corrections = DB::table('correcciones')
             ->select('correcciones.Codigo_solicitud_correccion', 
@@ -36,32 +32,25 @@ class CorrectionRequestController extends Controller
         //return response()->json($corrections);
         return view('CorrectionRequest.show') ->with(compact('solicitud'));
         //return redirect()->back();
-    }
+    }*/
 
     public function create()
     {
-        return view('CorrectionRequest.create')->with("Next",$this->calculateCodigo());
-        //insertar_Solicitud_correccion
+        $now=Carbon::now();
+        $currentDate=$now->format('Y-m-d');
+        return view('CorrectionRequest.create')
+            ->with(compact("currentDate"));
     }
 
     public function store(Request $request)
     {
-        /*$request->validate([
-            'Codigo_solicitud_correccion' => 'required|max:8|min:8',
-            'Codigo_reposicion' => 'required|max:6|min:6|',
-            'Codigo_guia_remision' => 'required|max:14|min:14|',
-            'Motivo' => 'required|max:100|min:6|',
-            'Fecha' => 'required',
-            'Status'=> 'required',
-        ]);
-        $data = $request->except("_token");
-        CorrectionRequest::insert($data);
-        return redirect('/CorrectionRequest');*/
+        $now=Carbon::now();
 
         DB::select("call obtener_ultimo_codigo(@id)");
         $convert = DB::select('select @id as last');
         $calculated = strval(intval($convert[0]->last) + 1);
         $calculated = strlen($calculated) < 8 ? str_repeat("0",8 - strlen($calculated)).$calculated : $calculated;
+        //$calculated=DB::select("call generar_codigo_solicitud_correccion()");
         try{
 
             $cabecera = new CorrectionRequest();
@@ -72,6 +61,13 @@ class CorrectionRequestController extends Controller
             $cabecera->Fecha = $request->Fecha;
             $cabecera->Status= $request->Status;
             $cabecera->save();
+            
+            //$cabecera=DB::select("call insertar_Solicitud_correccion('".$calculated."', 
+            //'".$request->Codigo_reposicion."','".$request->Codigo_guia_remision."',
+            //'".$request->Motivo."','".$request->Fecha."', '".$request->Status."')");
+            
+            //insertar_Solicitud_correccion(in CodigoSC CHAR(8), in CodigoR CHAR(6), 
+            //in CodigoGR CHAR(14), in Motive VARCHAR(55), in FechaSC Date)
 
             foreach ($request->Correcciones as $correccion) {
                 DB::table('correcciones')->insert([
@@ -79,19 +75,35 @@ class CorrectionRequestController extends Controller
                     "Numero_de_parte"=>$correccion['Numero_de_parte'],
                     "Diferencia"=>$correccion['Diferencia'],                                       
                 ]);
+                
+                //$corrections=BD::select(" call insertar_correcciones('".$calculated."',
+                //'".$correccion['Numero_de_parte']."','".$correccion['Diferencia']."')")
+
             }
             return response()->json(["msg"=>"Ok"],200);
         }catch (\Exception $e){
             return response()->json($e->getMessage(),500);
         }
+
+        /*DB::select("call obtener_ultimo_codigo(@id)");
+        $convert = DB::select('select @id as last');
+        $calculated = strval(intval($convert[0]->last) + 1);
+        $calculated = strlen($calculated) < 8 ? str_repeat("0",8 - strlen($calculated)).$calculated : $calculated;
+        try{
+            //GUARDANDO CABECERA
+            DB::select("call sp_guardar_cabecera_entrada('".$calculated."','".$request->Codigo_guia_remision."','".$request->Hora."','".$request->Fecha."')");
+            foreach ($request->Entradas as $entrada) {
+                DB::select("call sp_guardar_cuerpo_vale_entrada(?,?,?,?,?)", array($calculated,$entrada['Numero_de_parte'],$entrada['Cantidad'],$entrada['Observacion'],$entrada['Status'] == true ? 1 : 0,));
+            }
+            return response()->json(["msg"=>"Ok"],200);
+        }catch (\Exception $e){
+            return response()->json($e->getMessage(),500);
+        }*/
     }
 
     private function calculateCodigo(){
-        $last = CorrectionRequest::select('Codigo_solicitud_correccion')
-                ->orderBy("Codigo_solicitud_correccion","DESC")->get()->first();
-        $id = (empty($last)) ? "SC000000" : $last["Codigo_solicitud_correccion"];
-        $next = strval(intval(substr($id,1,strlen($id))) + 1);
-        return "C".str_repeat("0",7-strlen($next)).$next;
+        $codSC=("call generar_codigo_solicitud_correccion()");
+        return response()->json($codSC);
     }
 
     public function show($id)
@@ -148,27 +160,12 @@ class CorrectionRequestController extends Controller
     }
 
     public function searchGuide($code){
-        $data = DB::table('guia_de_remision')
-                ->select('guia_de_remision.Codigo_guia_remision',
-                    'guia_de_remision.Fecha_de_emision',
-                    'guia_de_remision.Inicio_traslado',
-                    'guia_de_remision.Fin_traslado',
-                    'Proveedor.Razon_social')
-                ->join('Proveedor','Proveedor.Codigo_proveedor','=','guia_de_remision.Codigo_proveedor')
-
-                ->where('guia_de_remision.Codigo_guia_remision','=',$code)
-                ->get();
+        $data = DB::select("call buscar_guia_remision('".$code."')");
         return response()->json($data);
 
     }
     public function searchProduct($code){
-        $data = DB::table('Material')
-            ->select('Numero_de_parte',
-                'Descripcion',
-                'Unidad_de_medida',
-                'Codigo_sap')
-            ->where('Numero_de_parte','=',$code)
-            ->get();
+        $data = DB::select("call buscar_producto('".$code."')");
         return response()->json($data);
     }
 
@@ -197,7 +194,7 @@ class CorrectionRequestController extends Controller
 
     public function disabledCorrectionRequest()
     {
-        $datos = DB::select("call mostrar_solicitudes_deshabilitadas");
+        $datos = DB::select("call mostrar_solicitudes_deshabilitadas()");
         return view('CorrectionRequest.disabledRequest')->with(compact('datos'));
     }
 }

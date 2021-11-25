@@ -12,13 +12,13 @@ const btnSave = document.getElementById('saveDetails');
 const alerts = document.getElementById('alerts');
 
 searchGuide.addEventListener('click',(e)=>{
-    if(guideInput.value == ""){
+    if(guideInput.value == ""){        
         Toast.fire({
             icon: 'warning',
             title: 'Ingrese el codigo de la guia de remisión'
         })
-    }else{
-        axios.get(`/searchGuide/${guideInput.value}`)
+    }else{        
+        axios.get(`/CorrectionRequest/searchGuide/${guideInput.value}`)
             .then((response)=>{
                 if(response.data.length === 0){
                     Toast.fire({
@@ -82,22 +82,22 @@ function  saveCorrectionRequest(){
 
 }
 function checkCorrections(){
-    let problems = [];
-    let corrections = getCorrections();
-    let checkCorrections = Corrections.filter(x => x.Numero_de_parte === "");
+    var problems = [];
+    /*let corrections = getCorrections();
+    let checkCorrections = corrections.filter(x => x.Numero_de_parte === "");
     if(corrections.length === 0 ){
         problems.push('Sin correcciones en la solicitud');
     }
     if(checkCorrections.length > 0){
-        problems.push(`Hay ${checkCorrections.length} correcciones que no tienen numero de parte`);
+        problems.push(`Hay ${checkCorrections.length} correcciones que no tienen número de parte`);
     }
     checkCorrections = corrections.filter(x => x.Diferencia === "" || x.Diferencia == 0);
     if(checkCorrections.length > 0){
-        problems.push(`Hay ${checkCorrections.length} coreeciones sin una diferencia`);
+        problems.push(`Hay ${checkCorrections.length} correcciones sin una diferencia`);
     }
     if(searchGuide.disabled == false){
         problems.push(`Falta vincular una guia de remision`);
-    }
+    }*/
     return problems;
 
 }
@@ -110,14 +110,13 @@ function agregarFila(){
                         "<td><button class='btn btn-danger' onclick='eliminarFila(this)'><i class='fas fa-trash'></i></button></td>"+
                     "</tr>";
     document.getElementById("dataTable").childNodes[3].appendChild(tr);
-    //alert('Puyol :c');
 }
 function searchProduct(element){
     if(element.value != ""){
         let corrections = getCorrections().filter(x => x.Numero_de_parte != "");
         let isRepeated = [...new Set(corrections.map(x => x.Numero_de_parte))];
         if(isRepeated.length === corrections.length){
-            axios.get(`/searchProduct/${element.value}`)
+            axios.get(`/CorrectionRequest/searchProduct/${element.value}`)
                 .then((res)=>{
                     if(res.status == 200 && res.data.length > 0 ){
                         parent = element.parentElement.parentElement;
