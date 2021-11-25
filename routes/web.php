@@ -23,7 +23,15 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
 Route::resource("/entryvoucher",\App\Http\Controllers\EntryVoucherController::class);
-Route::post("/createEntrances",[App\Http\Controllers\EntryVoucherController::class, 'saveEntrances']);
 Route::get("/searchGuide/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchGuide']);
 Route::get("/searchProduct/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchProduct']);
-Route::post("/saveEntries",[App\Http\Controllers\EntryVoucherController::class, 'saveEntries']);
+Route::get("/searchLocationsEntries/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchLocationsEntries']);
+//charts
+Route::get("/entryVoucherToday",[App\Http\Controllers\EntryVoucherController::class, 'entryVoucherToday']);
+Route::get("/entryVoucherMonth",[App\Http\Controllers\EntryVoucherController::class, 'chartEntryMonth']);
+Route::get("/chartDonutTopMaterials",[App\Http\Controllers\EntryVoucherController::class, 'chartDonutTopMaterials']);
+
+Route::get("/entriesDeleted",[App\Http\Controllers\EntryVoucherController::class, 'entriesDeleted']);
+Route::get("/searchEntryVoucherProv",[App\Http\Controllers\EntryVoucherController::class, 'searchEntryVoucherProv']);
+Route::get("/searchEntryVoucherDate",[App\Http\Controllers\EntryVoucherController::class, 'searchEntryVoucherDate']);
+Route::get("/entryVoucherPDF/{id}",[App\Http\Controllers\EntryVoucherController::class, 'entryVoucherPDF']);

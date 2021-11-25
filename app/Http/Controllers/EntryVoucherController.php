@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\EntryVoucher;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,6 +16,11 @@ class EntryVoucherController extends Controller
 
     public function index()
     {
+        //$datos = DB::select(DB::raw('CALL sp_obtener_entradas()'))->paginate(5);
+        /*
+        if($request->session()->has('Eliminar'));{
+            $request->session()->forget('Eliminar');
+        }*/
         $datos = EntryVoucher::where('Activo',1)->orderBy("ID_vale_entrada","DESC")->paginate(5);
         return view('entryvoucher.index',compact('datos'));
     }
@@ -35,31 +41,16 @@ class EntryVoucherController extends Controller
         $calculated = strval(intval($convert[0]->last) + 1);
         $calculated = strlen($calculated) < 8 ? str_repeat("0",8 - strlen($calculated)).$calculated : $calculated;
         try{
-
-            $cabecera = new EntryVoucher();
-            $cabecera->ID_vale_entrada = $calculated;
-            $cabecera->Codigo_guia_remision = $request->Codigo_guia_remision;
-            $cabecera->Hora = $request->Hora;
-            $cabecera->Fecha_recepcion = $request->Fecha;
-
-            $cabecera->save();
-
+            //GUARDANDO CABECERA
+            DB::select("call sp_guardar_cabecera_entrada('".$calculated."','".$request->Codigo_guia_remision."','".$request->Hora."','".$request->Fecha."')");
             foreach ($request->Entradas as $entrada) {
-                DB::table('entradas')->insert([
-                    "ID_vale_entrada"=>$calculated,
-                    "Numero_de_parte"=>$entrada['Numero_de_parte'],
-                    "Cantidad_recibida"=>$entrada['Cantidad'],
-                    "Observacion"=>$entrada['Observacion'],
-                    "Status"=>$entrada['Status'] == true ? 1 : 0,
-                ]);
+                DB::select("call sp_guardar_cuerpo_vale_entrada(?,?,?,?,?)", array($calculated,$entrada['Numero_de_parte'],$entrada['Cantidad'],$entrada['Observacion'],$entrada['Status'] == true ? 1 : 0,));
             }
-
             return response()->json(["msg"=>"Ok"],200);
         }catch (\Exception $e){
             return response()->json($e->getMessage(),500);
         }
     }
-
 
     public function show($id)
     {
@@ -71,11 +62,10 @@ class EntryVoucherController extends Controller
     }
 
 
-    public function edit(EntryVoucher $entryVoucher)
+    public function edit($id)
     {
         //
     }
-
 
     public function update(Request $request, EntryVoucher $entryVoucher)
     {
@@ -93,66 +83,59 @@ class EntryVoucherController extends Controller
 
     }
 
-    public function saveEntries(Request $request){
-
-        /*
-        DB::select("call sv_obtener_ultimo_codigo(@id)");
-        $convert = DB::select('select @id as last');
-        $calculated = strval(intval($convert[0]->last) + 1);
-        $calculated = strlen($calculated) < 8 ? str_repeat("0",8 - strlen($calculated)).$calculated : $calculated;
-        try{
-
-            $cabecera = new EntryVoucher();
-            $cabecera->ID_vale_entrada = $calculated;
-            $cabecera->Codigo_guia_remision = $request->Codigo_guia_remision;
-            $cabecera->Hora = $request->Hora;
-            $cabecera->Fecha_recepcion = $request->Fecha;
-
-            $cabecera->save();
-
-            foreach ($request->Entradas as $entrada) {
-                DB::table('entradas')->insert([
-                    "ID_vale_entrada"=>$calculated,
-                    "Numero_de_parte"=>$entrada['Numero_de_parte'],
-                    "Cantidad_recibida"=>$entrada['Cantidad'],
-                    "Observacion"=>$entrada['Observacion'],
-                    "Status"=>$entrada['Status'] == true ? 1 : 0,
-                ]);
-            }
-
-            return response()->json(["msg"=>"Ok"],200);
-        }catch (\Exception $e){
-            return response()->json($e->getMessage(),500);
-        }*/
-    }
-
-
-    /*CONVERTIR A PROCEDIMIENTO*/
     public function searchGuide($code){
-        /*return response()->json(['msg'=>$code]);*/
-        $data = DB::table('guia_de_remision')
-                ->select('guia_de_remision.Codigo_guia_remision',
-                    'guia_de_remision.Fecha_de_emision',
-                    'guia_de_remision.Inicio_traslado',
-                    'guia_de_remision.Fin_traslado',
-                    'Proveedor.Razon_social')
-                ->join('Proveedor','Proveedor.Codigo_proveedor','=','guia_de_remision.Codigo_proveedor')
-
-                ->where('guia_de_remision.Codigo_guia_remision','=',$code)
-                ->get();
+        $data = DB::select("call sv_buscar_guia('".$code."')");
         return response()->json($data);
     }
+
     public function searchProduct($code){
-        /*return response()->json(['msg'=>$code]);*/
 
-        $data = DB::table('Material')
-            ->select('Numero_de_parte',
-                'Descripcion',
-                'Unidad_de_medida',
-                'Codigo_sap')
-            ->where('Numero_de_parte','=',$code)
-            ->get();
+        $data = DB::select("call sv_search_product('".$code."')");
         return response()->json($data);
     }
+    public function entriesDeleted(){
+        $datos = DB::select("call sv_obtener_entradas_desactivadas()");
+        return view('entryvoucher.disabled')->with(compact('datos'));
+    }
+    public function searchEntryVoucherProv(Request $request){
 
+        $datos = DB::select("call sp_buscador_vale('P',?,NULL,NULL)",array($request->searchfor));
+        $msg = "Resultados para ".$request->searchfor;
+        return view('entryvoucher.found')
+                ->with(compact('datos'))
+                ->with(compact('msg'));
+        //return response()->json($request->searchfor);
+    }
+    public function searchEntryVoucherDate(Request $request){
+        $datos = DB::select("call sp_buscador_vale('F',NULL,?,?)",array($request->from,$request->to));
+        $msg = "Resultados para ".$request->to." - ".$request->from;
+        return view('entryvoucher.found')
+            ->with(compact('datos'))
+            ->with(compact('msg'));
+    }
+    public function searchLocationsEntries($id){
+        $datos = DB::select("Call sp_buscador_ubicaciones_entradas(?)",array($id));
+        return response()->json($datos);
+    }
+    public function entryVoucherToday(){
+        DB::select("call sp_vale_entrada_hoy(@cant)");
+        $cantEntries = DB::select('select @cant as cant');
+        return response($cantEntries[0]->cant);
+    }
+    public function entryVoucherPDF($id){
+        $voucher = EntryVoucher::findOrFail($id);
+        $entries = DB::select("call sv_obtener_entradas('".$id."')");
+        $pdf = PDF::loadView('entryvoucher.pdf',['voucher'=>$voucher,'entries'=>$entries]);
+        return $pdf->download('vale.pdf');
+    }
+    public function chartEntryMonth(){
+        $stats = DB::select("call sp_entradas_mensuales()");
+        return response()->json($stats);
+    }
+
+    //Pasar a materiales
+    public function chartDonutTopMaterials(){
+        $data = DB::select("call sp_top_materiales()");
+        return response()->json($data);
+    }
 }

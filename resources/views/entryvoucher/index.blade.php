@@ -4,9 +4,59 @@
     <div class="container-fluid">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Vales de entrada</h1>
-            <a href="{{url('entryvoucher/create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                    class="fas fa-plus-circle text-white-50"></i> Crear vale </a>
+            <div class="d-sm-flex">
+                <a href="{{url('entryvoucher/create')}}" class="btn btn-sm btn-success shadow-sm">
+                    <i class="fas fa-plus-circle text-white-50"></i>
+                    Crear vale
+                </a>
+                <a data-toggle="collapse" href="#collapseMaterial" class="btn btn-sm btn-primary shadow-sm mx-2" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="fas fa-sliders-h text-white-50"></i></i>
+                    Filtros
+                </a>
+                <form action="{{url('/entriesDeleted')}}" type="GET">
+                    <button type="submit" href="#collapseMaterial" class="btn btn-sm btn-secondary shadow-sm">
+                        <i class="fas fa-eye text-white-50"></i>Deshabilitados</button>
+                </form>
+            </div>
         </div>
+        <div class="container-fluid">
+            <div class="collapse" id="collapseMaterial">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
+                    <div style="float:none;" class="p-0 flex-grow-2 bd-highlight">
+                        <form id="formGuide" type="GET" action="{{ url('/searchEntryVoucherDate') }}"
+                              class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input name="from" type="date" class="form-control bg-light border-1 small"
+                                       aria-label="Search" aria-describedby="basic-addon2" required>
+                                <input name="to" type="date" class="form-control bg-light border-1 small"
+                                       aria-label="Search" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit" required>
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div style="float:none;" class="p-0 flex-grow-2 bd-highlight">
+                        <form id="formGuide" type="GET" action="{{url('/searchEntryVoucherProv')}}"
+                              class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input name="searchfor" type="text" class="form-control bg-light border-1 small" placeholder="Busqueda por proveedor"
+                                       aria-label="Search" aria-describedby="basic-addon2" required>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -14,7 +64,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table style="text-align:center;" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <th>Codigo</th>
@@ -35,8 +85,13 @@
                                         <a class="btn btn-success" href="{{ url('/entryvoucher/'.$data->ID_vale_entrada) }}">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a class="btn btn-warning" href="#">
+
+                                        <!--
+                                        <a class="btn btn-warning" href="url('/entryvoucher/'.$data->ID_vale_entrada.'/edit')  ">
                                             <i class="fas fa-pencil-alt"></i>
+                                        </a>-->
+                                        <a class="btn btn-primary" href="{{ url('/entryVoucherPDF/'.$data->ID_vale_entrada)  }}">
+                                            <i class="fas fa-file-pdf"></i>
                                         </a>
                                         @csrf
                                         {{ method_field('DELETE') }}
@@ -61,13 +116,17 @@
                     Toast.fire({
                         icon: 'success',
                         title: 'Eliminado Correctamente'
-                    })
+                    }).then((_)=>{
+                        location.reload();
+                    });
                 </script>
             @elseif(session('Eliminar') == 'bad')
                 <script>
                     Toast.fire({
                         icon: 'warning',
                         title: 'Existe algun error'
+                    }).then((_)=>{
+                        location.reload();
                     })
                 </script>
             @endif

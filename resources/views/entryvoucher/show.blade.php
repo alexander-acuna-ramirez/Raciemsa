@@ -28,22 +28,25 @@
                 </div>
                 <div class="row">
                     <div class="table-responsive px-3">
-                        <table class=" mt-2 table table-bordered">
+                        <table class=" mt-2 table table-bordered" style="text-align:center;">
                             <thead>
-                                <th>
+                                <th width="20%">
                                     Nro. Parte
                                 </th>
-                                <th>
+                                <th width="30%">
                                     Descripcion
                                 </th>
-                                <th>
+                                <th width="10%">
                                     Cantidad
                                 </th>
-                                <th>
+                                <th width="30%">
                                     Observacion
                                 </th>
-                                <th>
+                                <th width="5%">
                                     Status
+                                </th>
+                                <th width="5%">
+                                    Ubicaciones
                                 </th>
                             </thead>
                             <tbody>
@@ -58,6 +61,11 @@
                                         @else
                                             <td>{{"Incorrecto"}}</td>
                                         @endif
+                                        <td>
+                                            <button class="btn btn-primary" onclick="showLocations('{{$entry->Numero_de_parte}}')">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -66,6 +74,58 @@
                 </div>
             </div>
         </div>
-
     </div>
+@endsection
+@section('js')
+    <script>
+        function showLocations(code){
+            axios.get('/searchLocationsEntries/'+code).then((res)=>{
+                if(res.status == 200){
+                    //console.log(res.data);
+                    //res.data.map((e)=>console.log(e));
+                    console.log(prepareTable(res.data));
+                    Swal.fire({
+                        title: `<strong>Ubicaciones para <u>${code}</u></strong>`,
+                        icon: 'info',
+                        html:prepareTable(res.data),
+                        showCloseButton: true,
+                        focusConfirm: false,
+                        confirmButtonText:
+                            '<i class="fa fa-thumbs-up"></i> Ok!',
+                        confirmButtonAriaLabel: 'Thumbs up, great!',
+                        cancelButtonAriaLabel: 'Thumbs down'
+                    })
+                }
+            })
+
+        }
+        function prepareTable(data){
+            let tableHeader = `
+                            <table class=" mt-2 table table-bordered" style="text-align:center;">
+                                <thead>
+                                    <th width=30%">
+                                        Anaquel
+                                    </th>
+                                    <th width="20%">
+                                        Parte
+                                    </th>
+                                    <th width="20%">
+                                        Piso
+                                    </th>
+                                    <th width="30%">
+                                        Particion
+                                    </th>
+                                </thead>
+                            <tbody>`
+            let tableEntries = data.map((e)=>{
+                return `<tr><td>${e.Anaquel}</td>
+                 <td>${e.Parte_anaquel}</td>
+                 <td>${e.Piso}</td>
+                 <td>${e.Particion}</td></tr>`
+            });
+            let endTable = `</tbody></table>`
+            return tableHeader + tableEntries +endTable;
+        }
+
+    </script>
 @endsection
