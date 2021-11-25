@@ -7,15 +7,12 @@
         <h1 class="h3 mb-0 text-gray-800">Solicitudes de Corrección</h1>
         <a href="{{url('/CorrectionRequest/create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-plus-circle text-white-50"></i> Crear solicitud de corrección </a>
-    </div>
+    </div>    
 
-    
     <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a data-toggle="collapse" href="#collapseMaterial" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" aria-expanded="false" aria-controls="collapseExample">
-            <i class="fas fa-search text-white-50"></i> Búsqueda de solicitudes </a>
-        <a class="btn btn-secondary shadow-sm"  href="{{url('/CorrectionRequestdisabled')}}">
-        <i class="fas fa-eye text-white-50"></i>Ver solo solicitudes deshabilitadas </a>
+            <i class="fas fa-search text-white-50"></i> Búsqueda de Solicitudes </a>
     </div>
     <div class="collapse" id="collapseMaterial">
         <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
@@ -39,7 +36,7 @@
 
         <div style="float:none;margin:auto;" class="p-0 flex-grow-2 bd-highlight">
             <span class="h8 mb-0 text-gray-800">Filtrar por código:</span>    
-            <form id="formGuide" type="GET" action="{{ url('/searchRequest') }}"
+            <form id="formGuide" type="GET" action="{{ url('/searchGuide') }}"
                 class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
                     <input name= 'Buscarpor' type="text" class="form-control bg-light border-1 small" placeholder="Buscar..."
@@ -72,13 +69,12 @@
                             <th>Codigo de Reposición</th>
                             <th>Guia de Remisión</th>
                             <th>Motivo</th>
-                            <th>Fecha</th>                            
+                            <th>Fecha</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($datos as $data)
-                         
                             <tr>
                                 <td>{{$data->Codigo_solicitud_correccion}}</td>
                                 <td>{{$data->Codigo_reposicion}}</td>
@@ -86,25 +82,24 @@
                                 <td>{{$data->Motivo}}</td>
                                 <td>{{$data->Fecha}}</td>
                                 <td>
-                                    <form action="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion)}}" method="post" class="formActions" id="status">
-                                        <a type="submit" class="btn btn-primary shadow-sm align-middle text-center"  href="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion.'')}}"> 
+                                    <form action="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion)}}" method="get">
+                                        <a class="btn btn-primary shadow-sm"  href="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion.'')}}"> 
                                         <i class="fas fa-eye"></i>                                                                             
                                         </a>       
                                         
-                                        <a class="btn btn-warning shadow-sm align-middle text-center"  href="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion.'/edit')}}"> 
+                                        <a class="btn btn-warning shadow-sm"  href="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion.'/edit')}}"> 
                                         <i class="fas fa-edit"></i>                                            
                                         </a>
 
                                         @csrf
                                         {{ method_field('DELETE') }}
-                                        <button class="btn btn-danger d-inline align-middle text-center" href="{{url('/CorrectionRequest/change_status/'.$data->Codigo_solicitud_correccion)}}" id="status" value="{{$data->Codigo_solicitud_correccion}}" 
+                                        <button class="btn btn-danger d-inline" href="{{url('/CorrectionRequest/change_status/'.$data->Codigo_solicitud_correccion)}}" id="status" value="{{$data->Codigo_solicitud_correccion}}" 
                                         type="submit">
                                         <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
                                 </td>
                             </tr>
-                             
                         @endforeach
                     </tbody>
                 </table>
@@ -112,44 +107,11 @@
             </div>
         </div>
 </div>
-@endsection
 
-@section('js')
-            @if(session('Eliminar') == 'Ok')
-                <script>
-                    Toast.fire({
-                        icon: 'success',
-                        title: 'Eliminado Correctamente'
-                    })
-                </script>
-            @elseif(session('Eliminar') == 'bad')
-                <script>
-                    Toast.fire({
-                        icon: 'warning',
-                        title: 'Existe algún error'
-                    })
-                </script>
-            @endif
-            <script>
-                const forms = document.querySelectorAll('.formActions');
-                forms.forEach( (form)=>{
-                    form.addEventListener("submit",function (e){
-                        e.preventDefault();
-                        Swal.fire({
-                            title: '¿Estás seguro?',
-                            text: "El registro se deshabilitará",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Sí, deshabilítalo!',
-                            cancelButtonText: 'Cancelar'
-                        }).then(function (result){
-                            if(result.isConfirmed){
-                                form.submit();
-                            }
-                        })
-                    })
-                });
-            </script>
+<a class="btn btn-primary shadow-sm"  href="{{url('/CorrectionRequest/')}}"> 
+<i class="fas fa-arrow-circle-left"></i>
+</a>
+<div>
+    <h1> </h1>
+</div>
 @endsection

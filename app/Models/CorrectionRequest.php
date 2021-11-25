@@ -19,5 +19,6 @@ class CorrectionRequest extends Model
         'Codigo_guia_remision',
         'Motivo',
         'Fecha',
+        'Status',
     ];
 }

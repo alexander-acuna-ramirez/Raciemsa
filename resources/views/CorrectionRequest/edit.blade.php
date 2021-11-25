@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             <div> 
-                <form action="{{url("/CorrectionRequest/".$CorrectionRequest->Codigo_solicitud_correccion)}}" class="" method="post">
+                <form action="{{url('/CorrectionRequest/'.$CorrectionRequest->Codigo_solicitud_correccion)}}" class="" method="post" id="frmEditar">
                     @csrf
                     {{ method_field('PUT') }}
                     <div class="row">
@@ -22,11 +22,11 @@
     
                         <div class="col-4">
                             <label for="Codigo_reposicion">Codigo reposicion</label>
-                            <input type="text" class="form-control" name="Codigo_reposicion" id="Codigo_reposicion" value={{ $CorrectionRequest->Codigo_reposicion }}>
+                            <input type="text" class="form-control" readonly name="Codigo_reposicion" id="Codigo_reposicion" value={{ $CorrectionRequest->Codigo_reposicion }}>
                         </div> 
                         <div class="col-4">
                             <label for="Codigo_guia_remision">Guia de remision</label>
-                            <input type="text" class="form-control" name="Codigo_guia_remision" id="Codigo_guia_remision" value={{ $CorrectionRequest->Codigo_guia_remision }}>
+                            <input type="text" class="form-control" readonly name="Codigo_guia_remision" id="Codigo_guia_remision" value={{ $CorrectionRequest->Codigo_guia_remision }}>
                         </div>
                         <div class="col-4">
                             <label for="Motivo">Motivo</label>
@@ -35,7 +35,7 @@
                         <div class="col-4">
                             <label for="Fecha">Fecha</label>
                             <input type="date" class="form-control" name="Fecha" id="Fecha" value={{ $CorrectionRequest->Fecha }}>
-                        </div> 
+                        
                             @error('name')
                                 <br>
                                     <small>{{$message}}</small>
@@ -48,26 +48,16 @@
                     
                     <div class="row mt-2">
                         <div class="col">
-                            <a href="{{url()->previous()}}" class="btn btn-danger btn-icon-split float-right mx-1">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-trash"></i>
-                                </span>
-                                <span class="text">Cancelar</span>
-                            </a>
-
-                            <button type="submit" class="btn btn-success btn-icon-split float-right mx-1">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-check"></i>
-                                </span>
-                                <span class="text">Guardar</span>
-                            </button>
-
-                            
-
+                            <div class="col">
+                                <button type='submit' class="btn btn-success mx-1 float-right mx-1" title="Guardar" id="saveDetails" >
+                                    <i class="fas fa-save"></i>
+                                </button>
+                                <a class="btn btn-danger float-right mx-1" title="Cancelar" href="{{url('/CorrectionRequest')}}">
+                                    <i class="fas fa-ban"></i>
+                                </a>                         
+                            </div>
                         </div>
-
-                    </div>
-                
+                    </div>                
                 </form>
             </div>
         </div>

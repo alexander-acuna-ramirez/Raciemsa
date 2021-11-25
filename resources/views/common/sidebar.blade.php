@@ -33,7 +33,6 @@
             <i class="fas fa-book"></i>
             <span>Catalogos</span></a>
     </li>
- 
 
     <div class="sidebar-heading">
         Documentos

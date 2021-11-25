@@ -327,6 +327,15 @@
 
         </div>
     </div>
+    
+    <script>
+        Swal.fire("Bienvenido")
+    </script>
 
 </div>
+@endsection
+@section('js')
+<!-- Page level custom scripts -->
+<script src="{{asset('admin/js/demo/chart-area-demo.js')}}"></script>
+    <script src="{{asset('admin/js/demo/chart-pie-demo.js')}}"></script>
 @endsection

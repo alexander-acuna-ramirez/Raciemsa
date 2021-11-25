@@ -1,20 +1,23 @@
 @extends('layouts.master')
-
 @section('content')
+
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Solicitudes de Correccion</h1>
+        <a href="{{url('/Corrections/create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                class="fas fa-plus-circle text-white-50"></i> Añadir Correcciones </a>
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Crear solicitud de correccion</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Crear Solicitud de Correcion</h6>
         </div>
         <div class="card-body">
             <div> 
                 <form action="{{url("/CorrectionRequest")}}" class="" method="post">
                     @csrf
                     <div class="row">
-                        <div class="col-5">
+                        
+                    <div class="col-5">
                             <label for="Codigo_solicitud_correccion">Codigo</label>
                             <input type="text" class="form-control"  name="Codigo_solicitud_correccion" id="Codigo_solicitud_correccion" >
                         </div>
@@ -25,12 +28,6 @@
                         </div>
 
                         <div class="col-5">
-                            <label for="Codigo_guia_remision">Guia de remision</label>
-                            <input type="text" class="form-control"  name="Codigo_guia_remision" id="Codigo_guia_remision" >
-                        </div>
-
-
-                        <div class="col-5">
                             <label for="Motivo">Motivo</label>
                             <input type="text" class="form-control"  name="Motivo" id="Motivo" >
                         </div>
@@ -38,43 +35,102 @@
                         <div class="col-5">
                             <label for="Fecha">Fecha</label>
                             <input type="date" class="form-control"  name="Fecha" id="Fecha" value="{{ $Next }}">
-                        </div>
-                       
                             @error('name')
                                 <br>
                                     <small>{{$message}}</small>
                                 <br>
                             @enderror
+                        </div>  
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Buscar guia de remisión</label>
+                                    <div class="input-group flex-nowrap">
+                                        <input id="inputGuide" type="text" name="Codigo_guia_remision" class="form-control" placeholder="Codigo guia de remisión">
+                                        <div class="input-group-append">
+                                            <button id="searchBtn" class="btn btn-primary border-0" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Social">Proveedor </label>
+                                    <input id="Social" type="text" disabled class="form-control" placeholder="">
+                                </div>
+                            </div>
                         </div>
-                        
-                    </div>
 
-                    
-                    <div class="row mt-3">
-                        <div class="col">
-                            <a href="{{url()->previous()}}" class="btn btn-danger btn-icon-split float-right mx-1">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-trash"></i>
-                                </span>
-                                <span class="text">Cancelar</span>
-                            </a>
-
-                            <button type="submit" class="btn btn-success btn-icon-split float-right mx-1">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-check"></i>
-                                </span>
-                                <span class="text">Agregar</span>
-                            </button>
-
-                            
-
+                    <div class="row mt-1">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label >Emisión</label>
+                                <input id="Emision" type="text" disabled class="form-control" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label >Inicio del traslado</label>
+                                <input id="Inicio" type="text" disabled class="form-control" placeholder="">
+                            </div>
                         </div>
 
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label >Fin del traslado</label>
+                                <input id="Fin" type="text" disabled class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>       
+
+                     </div>     
+                    <div>
+                        <h1> </h1>
                     </div>
-                
+                    <div class="card  mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Correciones</h6>
+                    </div>
+                    <div class="card-body">
+
+                    <div class="row mt-1">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th width="25%">Numero de Parte</th>
+                                <th width="25%">Descripción</th>
+                                <th width="25%">Diferencia</th>
+                                <th width="25%">Acciones</th>                                
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mt-1 float-right">
+                    <a id="addCorrections" class="btn btn-primary" title="Agregar corrección">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                    <button class="btn btn-success mx-1" title="Guardar" id="saveDetails">
+                        <i class="fas fa-save"></i>
+                    </button>
+                    <a class="btn btn-danger" title="Cancelar" href="{{url('/CorrectionRequest')}}">
+                        <i class="fas fa-ban"></i>
+                    </a>
+                </div>         
                 </form>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+    <script src="{{asset('/js/assets/Corrections.js')}}"></script>
 @endsection
