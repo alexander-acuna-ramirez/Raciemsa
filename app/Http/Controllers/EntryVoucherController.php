@@ -83,6 +83,17 @@ class EntryVoucherController extends Controller
     {
         return view('entryvoucher.report');
     }
+    public function reportEntriesSearch(Request $request)
+    {
+        $entries = DB::select("call sp_report_search_vales_entrada(?,?)",array($request->from,$request->to));
+        return response()->json($entries);
+    }
+    public function reportEntriesPDF(Request $request)
+    {
+        $entries = DB::select("call sp_report_search_vales_entrada(?,?)",array($request->from,$request->to));
+        $pdf = PDF::loadView('entryvoucher.reportpdf',['curdate'=>date("Y-m-d"),'entries'=>$entries,'hora'=> date("H:i"),'to'=>$request->to,'from'=>$request->from]);
+        return $pdf->download('reporte.pdf');
+    }
 
 
 
