@@ -21,7 +21,7 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
         <div style="float:none;margin:auto;" class="p-0 flex-grow-2 bd-highlight">
             <span class="h8 mb-0 text-gray-800">Filtrar por fecha:</span>    
-            <form id="formGuide" type="GET" action="{{ url('/searchbyDate') }}"
+            <form id="formGuide" type="GET" action="{{ url('/searchbyDateCorrection') }}"
                 class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
                     <input name="from" type="date" class="form-control bg-light border-1 small"
@@ -39,7 +39,7 @@
 
         <div style="float:none;margin:auto;" class="p-0 flex-grow-2 bd-highlight">
             <span class="h8 mb-0 text-gray-800">Filtrar por código:</span>    
-            <form id="formGuide" type="GET" action="{{ url('/searchGuide') }}"
+            <form id="formGuide" type="GET" action="{{ url('/searchRequestCorrection') }}"
                 class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                 <div class="input-group">
                     <input name= 'Buscarpor' type="text" class="form-control bg-light border-1 small" placeholder="Buscar..."

@@ -16,7 +16,7 @@ class CorrectionRequestController extends Controller
     public function index(Request $request)
     {
         $cod=$request->get('Buscarpor');
-        $datos = DB::select("call mostrar_solicitudes_habilitadas()");        
+        $datos = DB::select("call sp_mostrar_solicitudes_correccion_habilitadas()");        
         return view('CorrectionRequest.index',compact('datos'));    
     }
 
@@ -31,18 +31,18 @@ class CorrectionRequestController extends Controller
     public function store(Request $request)
     {
         $now=Carbon::now();     
-        DB::select("call obtener_ultimo_codigo(@id)");
+        DB::select("call sp_obtener_ultimo_codigo_SC(@id)");
         $convert = DB::select('select @id as last');
         $cad = "SC";
         $calculated = strval(intval($convert[0]->last) + 1);
         $calculated = strlen($calculated) < 6 ? str_repeat("0",6 - strlen($calculated)).$calculated : $calculated;
         $conc=$cad.$calculated;
         try{            
-            DB::select("call insertar_Solicitud_correccion('".$conc."', 
+            DB::select("call sp_insertar_Solicitud_correccion('".$conc."', 
             '".$request->Codigo_reposicion."','".$request->Codigo_guia_remision."',
             '".$request->Motivo."','".$request->Fecha."')");
             foreach ($request->Correcciones as $correccion) {
-                DB::select("call insertar_Solicitud_correccion(?,?,?)", array($conc,$correccion['Numero_de_parte'],$correccion['Diferencia'],));
+                DB::select("call sp_insertar_correcciones(?,?,?)", array($conc,$correccion['Numero_de_parte'],$correccion['Diferencia'],));
             }
             $datos = DB::select("call mostrar_solicitudes_habilitadas()");        
             return view('CorrectionRequest.index',compact('datos'));
@@ -75,7 +75,7 @@ class CorrectionRequestController extends Controller
     public function destroy($id)
     {
         try{
-            $corrections = DB::select("call deshabilitar_Solicitud_Correccion('".$id."')");
+            $corrections = DB::select("call sp_deshabilitar_Solicitud_Correccion('".$id."')");
             return redirect()->route('CorrectionRequest.index')->with('Eliminar','Ok');
         }catch(\Exception $e){
             return redirect()->route('CorrectionRequest.index')->with('Eliminar','Bad');
@@ -83,19 +83,19 @@ class CorrectionRequestController extends Controller
     }
 
     public function searchGuide($code){
-        $data = DB::select("call buscar_guia_remision('".$code."')");
+        $data = DB::select("call sp_buscar_guia_remision_sc('".$code."')");
         return response()->json($data);
 
     }
     public function searchProduct($code){
-        $data = DB::select("call buscar_producto('".$code."')");
+        $data = DB::select("call sp_buscar_producto_sc('".$code."')");
         return response()->json($data);
     }
 
     public function searchRequest(Request $request)
     {
         $cod=$request->get('Buscarpor');
-        $datos = DB::select("call buscar_solicitud_correccion_por_codigo('".$cod."')");
+        $datos = DB::select("call sp_buscar_solicitud_correccion_por_codigo('".$cod."')");
         return view('CorrectionRequest.codeSearch')->with(compact('datos'));
     }
 
@@ -111,32 +111,32 @@ class CorrectionRequestController extends Controller
             $to='3000-01-01';
         }
         
-        $datos = DB::select("call buscar_solicitud_correccion_por_fecha('" . $from . "','" . $to . "')");
+        $datos = DB::select("call sp_buscar_solicitud_correccion_por_fecha('" . $from . "','" . $to . "')");
         return view('CorrectionRequest.dateSearch')->with(compact('datos'));
     }
 
     public function disabledCorrectionRequest()
     {
-        $datos = DB::select("call mostrar_solicitudes_deshabilitadas()");
+        $datos = DB::select("call sp_mostrar_solicitudes_correccion_deshabilitadas()");
         return view('CorrectionRequest.disabledRequest')->with(compact('datos'));
     }
 
     public function totalCorrectionRequest(){
-        DB::select("call solicitud_correccion_total(@total)");
+        DB::select("call sp_solicitud_correccion_total(@total)");
         $convert = DB::select('select @total as last');
         return response()->json($convert);
     }
 
     public function reportCorrections()
     {
-        $datos = DB::select("call mostrar_solicitudes_detalles_proveedor()");
+        $datos = DB::select("call sp_mostrar_solicitudes_detalles_proveedor()");
         $pdf = PDF::loadView('CorrectionRequest.reportSC',['datos'=>$datos]);
         return $pdf->download('SolicitudCorreccion.pdf');
     }
 
     public function CorrectionRequestPDF($id){
         $request = CorrectionRequest::findOrFail($id);
-        $corrections = DB::select("call mostrar_correcciones_detalles('".$id."')");
+        $corrections = DB::select("call sp_mostrar_correcciones_detalles('".$id."')");
         $pdf = PDF::loadView('CorrectionRequest.pdf',['request'=>$request,'corrections'=>$corrections])->setPaper('a5', 'landscape');
         return $pdf->download('vale.pdf');
     }
