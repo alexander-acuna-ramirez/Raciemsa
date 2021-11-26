@@ -22,10 +22,6 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
-<<<<<<< HEAD
-        "sweetalert2": "^11.1.10"
-=======
         "sweetalert2": "^11.2.0"
->>>>>>> 33b531ef04be3376fd31d4cd3addf8af73e67dd5
     }
 }

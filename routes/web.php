@@ -21,7 +21,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-<<<<<<< HEAD
 
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
 Route::resource("/guide",\App\Http\Controllers\GuideController::class);
@@ -38,7 +37,6 @@ Route::get("/downloadPDF",[App\Http\Controllers\GuideController::class, 'downloa
 
 
 
-=======
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
 
 Route::resource("/material",\App\Http\Controllers\MaterialController::class);
@@ -47,4 +45,22 @@ Route::get("/searchCatalog/{id}",[App\Http\Controllers\MaterialController::class
 Route::get("/materialfilter/{id}",[App\Http\Controllers\MaterialController::class, 'materialfilter']);
 Route::get("/searchMaterialsap",[App\Http\Controllers\MaterialController::class, 'searchMaterialsap']);
 Route::get("/showMaterial/{id}",[App\Http\Controllers\MaterialController::class, 'showMaterial']);
->>>>>>> 33b531ef04be3376fd31d4cd3addf8af73e67dd5
+Route::resource("/entryvoucher",\App\Http\Controllers\EntryVoucherController::class);
+Route::get("/searchGuide/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchGuide']);
+Route::get("/searchProduct/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchProduct']);
+Route::get("/reportEntries",[App\Http\Controllers\EntryVoucherController::class, 'reportEntries']);
+Route::post("/reportEntriesSearch",[App\Http\Controllers\EntryVoucherController::class, 'reportEntriesSearch']);
+Route::get("/reportEntriesPDF",[App\Http\Controllers\EntryVoucherController::class, 'reportEntriesPDF']);
+
+
+Route::get("/searchLocationsEntries/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchLocationsEntries']);
+//charts
+Route::get("/entryVoucherToday",[App\Http\Controllers\EntryVoucherController::class, 'entryVoucherToday']);
+Route::get("/entryVoucherMonth",[App\Http\Controllers\EntryVoucherController::class, 'chartEntryMonth']);
+Route::get("/chartDonutTopMaterials",[App\Http\Controllers\EntryVoucherController::class, 'chartDonutTopMaterials']);
+
+Route::get("/entriesDeleted",[App\Http\Controllers\EntryVoucherController::class, 'entriesDeleted']);
+Route::get("/searchEntryVoucherProv",[App\Http\Controllers\EntryVoucherController::class, 'searchEntryVoucherProv']);
+Route::get("/searchEntryVoucherDate",[App\Http\Controllers\EntryVoucherController::class, 'searchEntryVoucherDate']);
+Route::get("/entryVoucherPDF/{id}",[App\Http\Controllers\EntryVoucherController::class, 'entryVoucherPDF']);
+
