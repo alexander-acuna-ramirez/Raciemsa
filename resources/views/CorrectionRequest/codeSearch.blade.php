@@ -83,12 +83,12 @@
                                 <td>{{$data->Fecha}}</td>
                                 <td>
                                     <form action="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion)}}" method="get">
-                                        <a class="btn btn-primary shadow-sm"  href="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion.'')}}"> 
+                                        <a class="btn btn-success shadow-sm"  href="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion.'')}}"> 
                                         <i class="fas fa-eye"></i>                                                                             
                                         </a>       
                                         
-                                        <a class="btn btn-warning shadow-sm"  href="{{url('/CorrectionRequest/'.$data->Codigo_solicitud_correccion.'/edit')}}"> 
-                                        <i class="fas fa-edit"></i>                                            
+                                        <a class="btn btn-primary shadow-sm align-middle text-center"  href=""> 
+                                        <i class="fas fa-file-pdf"></i>                                                                           
                                         </a>
 
                                         @csrf

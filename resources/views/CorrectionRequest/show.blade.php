@@ -60,10 +60,7 @@
                                         <a class="btn btn-danger shadow-sm"  href="#}"> 
                                         <i class="fas fa-trash-alt"></i>                                                                         
                                         </a>       
-                                        
-                                        <a class="btn btn-warning shadow-sm"  href="#"> 
-                                        <i class="fas fa-edit"></i>
-                                            
+                                                                                    
                                         </a>
                                     </form>
                                 </td>
@@ -77,4 +74,11 @@
             </div>
         </div>
     </div>
+
+<a class="btn btn-primary shadow-sm"  href="{{url('/CorrectionRequest/')}}"> 
+<i class="fas fa-arrow-circle-left"></i>
+</a>
+<div>
+    <h1> </h1>
+</div>  
 @endsection

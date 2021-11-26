@@ -83,7 +83,7 @@ function  saveCorrectionRequest(){
 }
 function checkCorrections(){
     var problems = [];
-    /*let corrections = getCorrections();
+    let corrections = getCorrections();
     let checkCorrections = corrections.filter(x => x.Numero_de_parte === "");
     if(corrections.length === 0 ){
         problems.push('Sin correcciones en la solicitud');
@@ -97,7 +97,7 @@ function checkCorrections(){
     }
     if(searchGuide.disabled == false){
         problems.push(`Falta vincular una guia de remision`);
-    }*/
+    }
     return problems;
 
 }
@@ -156,36 +156,3 @@ function eliminarFila(element){
     let row = element.parentElement.parentElement;
     element.parentElement.parentElement.parentElement.removeChild(row);
 }
-
-/*if(document.querySelector("#frmEditar")){
-    let frmEditar = document.querySelector("#frmEditar");
-    frmEditar.onsubmit = function(e){
-        e.preventDefault();
-        fntEditar();
-    }
-    async function fntEditar(){
-        let strMotivo = document.querySelector("#Motivo").value;
-        if(strMotivo ==""){
-            alert("Tiene que llenar el campo faltante");
-            return;
-        }
-        try{
-            const data = new FormData(frmEditar);
-            let resp = await fetch(base_url+"controllers/CorrectionRequest.php?op=registro",{
-                method:'POST',
-                mode:'cors',
-                cache:'no-cache',
-                body:data
-            });
-            json=await resp.json();
-            if(json.status){
-                swal("Guardar",json.msg,"success");
-                frmEditar.reset();
-            }else{
-                swall("Guardar",json.msg, "error");
-            }
-        }catch(err){
-            console.log("Ocurrio un error:"+err);
-        }
-    }
-}*/

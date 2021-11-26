@@ -13,10 +13,19 @@
             <div> 
                 <form action="{{url('/CorrectionRequest')}}" class="" method="post">
                     @csrf
+                    @if ($errors->any())
+                        <div class="alert alert-danger" role="alert">
+                            @foreach ($errors->all() as $error )
+                                <li style="list-style: none">
+                                    {{ $error }}
+                            </li>
+                            @endforeach
+                        </div>
+                    @endif
                     <div class="row">                        
                         <div class="col-6 mt-1">
                                 <label for="Codigo_solicitud_correccion">Código de Corrección</label>
-                                <input type="text" class="form-control"  name="Codigo_solicitud_correccion" id="Codigo_solicitud_correccion">
+                                <input type="text" class="form-control"  readonly name="Codigo_solicitud_correccion" id="Codigo_solicitud_correccion" placeholder="SC00000*">
                             </div>
         
                             <div class="col-6 mt-1">

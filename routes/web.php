@@ -23,21 +23,14 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
 
-
-
-//Route::get('/CorrectionRequest/showCorrections/{codigo}',[App\Http\Controllers\CorrectionRequestController::class,'showCorrections']);
-
 Route::resource("/CorrectionRequest",\App\Http\Controllers\CorrectionRequestController::class);
-
 Route::get('/CorrectionRequest/change_status/{codigo}',[App\Http\Controllers\CorrectionRequestController::class,'change_status'])
 ->name('change.status.Crequest');
-
 Route::get("/CorrectionRequest/searchGuide/{id}",[App\Http\Controllers\CorrectionRequestController::class, 'searchGuide']);
 Route::get("/CorrectionRequest/searchProduct/{id}",[App\Http\Controllers\CorrectionRequestController::class, 'searchProduct']);
-
 Route::get("/searchRequestCorrection",[App\Http\Controllers\CorrectionRequestController::class, 'searchRequest']);
 Route::get("/searchbyDateCorrection",[App\Http\Controllers\CorrectionRequestController::class, 'searchbyDate']);
-
 Route::get('/CorrectionRequestdisabled', [App\Http\Controllers\CorrectionRequestController::class, "disabledCorrectionRequest"]);
 
-//Route::post("/CorrectionRequests",[App\Http\Controllers\CorrectionRequestController::class, 'store']);
+Route::get("/correctionRequestPDF/{id}",[App\Http\Controllers\CorrectionRequestController::class, 'CorrectionRequestPDF']);
+Route::get("/reportCorrections",[App\Http\Controllers\CorrectionRequestController::class, 'reportCorrections']);
