@@ -5,21 +5,13 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Guía de remisión</h1>
             <div class="d-sm-flex">
-                <a href="{{url('/guide/create')}}" class="btn btn-sm btn-success shadow-sm">
-                    <i class="fas fa-plus-circle text-white-50"></i>
-                    Crear guía
-                </a>
                 <a data-toggle="collapse" href="#collapseMaterial" class="btn btn-sm btn-primary shadow-sm mx-2" aria-expanded="false" aria-controls="collapseExample">
                     <i class="fas fa-sliders-h text-white-50"></i></i>
                     Filtros
                 </a>
-                <a href="{{url('/disableGuides')}}" class="btn btn-sm btn-secondary shadow-sm">
+                <a href="{{url('/guide')}}" class="btn btn-sm btn-secondary shadow-sm">
                     <i class="fas fa-eye text-white-50"></i> 
-                    Deshabilitados
-                </a>  
-                <a href="{{url('/report')}}" class="btn btn-sm btn-danger shadow-sm mx-2">
-                    <i class="fas fa-file-alt text-white-50"></i>
-                    Reporte
+                    Habilitados
                 </a>
             </div>
         </div>
@@ -27,12 +19,12 @@
             <div class="collapse" id="collapseMaterial">
                 <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
                     <div style="float:none;" class="p-0 flex-grow-2 bd-highlight">
-                        <form id="formGuide" type="GET" action="{{ url('/searchbyDate') }}"
+                        <form id="formGuide" type="GET" action="{{ url('/searchbyDateDisable') }}"
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                             <div class="input-group">
-                                <input name="from" type="date" class="form-control bg-light border-1 small"
+                                <input name="fromDate" type="date" class="form-control bg-light border-1 small"
                                 aria-label="Search" aria-describedby="basic-addon2">
-                                <input name="to" type="date" class="form-control bg-light border-1 small"
+                                <input name="toDate" type="date" class="form-control bg-light border-1 small"
                                 aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">
@@ -43,10 +35,10 @@
                         </form>
                     </div>
                     <div style="float:none;" class="p-0 flex-grow-2 bd-highlight">
-                        <form id="formGuide" type="GET" action="{{ url('/searchGuide') }}"
+                        <form id="formGuide" type="GET" action="{{ url('/searchGuideDisable') }}"
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                             <div class="input-group">
-                                <input name="searchfor" type="text" class="form-control bg-light border-1 small" placeholder="Buscar por código"
+                                <input name="search" type="text" class="form-control bg-light border-1 small" placeholder="Buscar por código"
                                 aria-label="Search" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">
@@ -80,7 +72,7 @@
                             <th>Inicio de traslado</th>
                             <th>Fin de traslado</th>
                             <th>Código de proveedor</th>
-                            <th>Acciones</th>
+                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -94,19 +86,11 @@
                                 <button value="{{$data->Codigo_proveedor}}" id="shProv" 
                                 onclick='searchProv(this)' class="btn btn-link">
                                     <i class="fas fa-truck"></i>
-                                </button></td>
+                                </button>
                                 <td>
-                                    <form action="{{url('/guide/'.$data->Codigo_guia_remision)}}" method="post"  class="formActions">
-                                        <a class="btn btn-success" href="{{url('/guide/'.$data->Codigo_guia_remision.'/edit')}}">
-                                        <i class="fas fa-edit"></i>
-                                        </a>
-                                        @csrf
-                                        {{ method_field('DELETE') }}
-                                        <button class="btn btn-danger d-inline" value="{{$data->Codigo_guia_remision}}" 
-                                        type="submit">
-                                        <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-danger" disabled>
+                                        <i class="fas fa-eye-slash"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -136,14 +120,14 @@
                 <script>
                     Toast.fire({
                         icon: 'success',
-                        title: 'Deshabilitado Correctamente'
+                        title: 'Eliminado Correctamente'
                     })
                 </script>
             @elseif(session('Eliminar') == 'bad')
                 <script>
                     Toast.fire({
                         icon: 'warning',
-                        title: 'No se pudo deshabilitar'
+                        title: 'Existe algun error'
                     })
                 </script>
             @endif
@@ -153,13 +137,13 @@
                     form.addEventListener("submit",function (e){
                         e.preventDefault();
                         Swal.fire({
-                            title: '¿Estás seguro?',
+                            title: '¿Estas seguro?',
                             text: "El registro se deshabilitará",
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonColor: '#3085d6',
                             cancelButtonColor: '#d33',
-                            confirmButtonText: 'Sí, deshabilítalo!',
+                            confirmButtonText: 'Si, deshabilítalo!',
                             cancelButtonText: 'Cancelar'
                         }).then(function (result){
                             if(result.isConfirmed){

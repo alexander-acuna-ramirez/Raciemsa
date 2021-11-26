@@ -2,6 +2,15 @@
 
 @section('content')
 <div class="container-fluid">
+@if ($errors->any())
+    <div class="alert alert-danger" role="alert">
+        @foreach ($errors->all() as $error )
+            <li style="list-style: none">
+                {{ $error }}
+        </li>
+        @endforeach
+    </div>
+@endif
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Guía de Remisión</h1>
     </div>
@@ -16,54 +25,38 @@
                     <div class="row">
                         <div class="col-6">
                             <label for="Codigo_guia_remision">Código</label>
-                            <input type="text" class="form-control" name="Codigo_guia_remision" id="Codigo_guia_remision">
-                            @error('name')
-                                <br>
-                                    <small>{{$message}}</small>
-                                <br>
-                            @enderror
+                            <input type="text" class="form-control" value="{{ old('Codigo_guia_remision') }}"
+                            name="Codigo_guia_remision" id="Codigo_guia_remision">
                         </div>
     
                         <div class="col-6">
                             <label for="Fecha_de_emision">Fecha de emisión</label>
-                            <input type="date" class="form-control" name="Fecha_de_emision" id="Fecha_de_emision">
-                            @error('name')
-                                <br>
-                                    <small>{{$message}}</small>
-                                <br>
-                            @enderror
+                            <input type="date" class="form-control" value="{{ old('Fecha_de_emision') }}"
+                            name="Fecha_de_emision" id="Fecha_de_emision">
                         </div>
 
                         <div class="col-6">
                             <label for="Inicio_traslado">Inicio de traslado</label>
-                            <input type="date" class="form-control" name="Inicio_traslado" id="Inicio_traslado">
-                            @error('name')
-                                <br>
-                                    <small>{{$message}}</small>
-                                <br>
-                            @enderror
+                            <input type="date" class="form-control" value="{{ old('Inicio_traslado') }}"
+                            name="Inicio_traslado" id="Inicio_traslado">
                         </div>
 
                         <div class="col-6">
                             <label for="Fin_traslado">Fin de traslado</label>
-                            <input type="date" class="form-control" name="Fin_traslado" id="Fin_traslado">
-                            @error('name')
-                                <br>
-                                    <small>{{$message}}</small>
-                                <br>
-                            @enderror
+                            <input type="date" class="form-control" value="{{ old('Fin_traslado') }}"
+                            name="Fin_traslado" id="Fin_traslado">
                         </div>
 
                         <div class="col-6">
                             <label for="Codigo_proveedor">Código de proveedor</label>
-                            <div class="input-group flex-nowrap">
-                                <input id="Codigo_proveedor" type="text" class="form-control" name="Codigo_proveedor" >
-                                <div class="input-group-append">
-                                    <button id="searchBtn" class="btn btn-primary border-0" type="button">
-                                        <i class="fas fa-search fa-sm"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <select class="form-control" id="Codigo_proveedor" name="Codigo_proveedor">
+                                <option value="">Seleccione una opción...</option>
+                                @foreach($prov AS $provs)
+                                    <option value="{{ $provs->Codigo_proveedor }}">
+                                        {{ $provs->Codigo_proveedor }} <span>-</span> {{ $provs->Razon_social }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         
                     </div>
@@ -84,47 +77,11 @@
                                 </span>
                                 <span class="text">Agregar</span>
                             </button>
-
-                            
-
                         </div>
-
                     </div>
-                
                 </form>
             </div>
         </div>
     </div>
 </div>
-@endsection
-@section('js')
-    <script>
-        const searchProveedor = document.getElementById('searchBtn');
-        const provInput = document.getElementById('Codigo_proveedor');
-        searchProveedor.addEventListener('click',(e)=>{
-            if(provInput.value == ""){
-                Toast.fire({
-                    icon: 'warning',
-                    title: 'Ingrese el codigo del proveedor'
-                })
-            }else{
-                /*Necesita validacion*/
-                axios.get(`/searchProveedor/${provInput.value}`)
-                    .then((response)=>{
-                        if(response.data.length === 0){
-                            Toast.fire({
-                                icon: 'warning',
-                                title: 'Guia no encontrada'
-                            })
-                        }else{
-                            Toast.fire({
-                                icon: 'success',
-                                title: 'Guia encontrada',
-                                text: response.data[0].Razon_social
-                            })
-                        }
-                    });
-            }
-        })
-    </script>
 @endsection
