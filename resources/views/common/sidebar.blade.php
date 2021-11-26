@@ -14,11 +14,10 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="{{url("home")}}">
+        <a class="nav-link" href='{{url('home')}}'>
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
-
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -26,7 +25,6 @@
     <div class="sidebar-heading">
         Maestros
     </div>
-
 
     <li class="nav-item">
         <a class="nav-link" href="{{url('catalog')}}">
@@ -38,12 +36,6 @@
             <i class="fas fa-book"></i>
             <span>Solicitudes de Reposicion</span></a>
     </li>
-    
-    
-
-
-
-
     <!-- Heading -->
     <div class="sidebar-heading">
         Interface

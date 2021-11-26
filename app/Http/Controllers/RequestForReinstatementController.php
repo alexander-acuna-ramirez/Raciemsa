@@ -2,40 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RequestForReinstatement;
-use App\Models\Provider;
-use App\Http\Livewire\ListRequest;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
+
+use DB;
 
 class RequestForReinstatementController extends Controller
 {
+
     public function index()
     {
-        
-        $datos = DB::select("call mostrar_solicitudes_de_reposicion()");
-        return view('RequestForReinstatement.index')->with('datos',$datos);
-    }
+        $datos = DB::select("call sp_mostrar_solicitudes_de_reposicion()");
+        $datos = $this->paginateCollection($datos, 5);
+        $datos->setpath('RequestForReinstatement');
 
+        return view('RequestForReinstatement.index',compact('datos'));
+    }
+    public function search(Request $request)
+    {
+        $fromDate = $request->fromDate;
+        $toDate = $request->toDate;
+        $datos = DB::select("call sp_buscar_solicitudReposicion_entre_fechas('$fromDate','$toDate')");
+        $datos = $this->paginateCollection($datos,5);
+        $datos->setpath($request->path());
+        return view('RequestForReinstatement.index',compact('datos'));
+    }
+    public function paginateCollection($items, $perPage = 15, $page = null, $options = [])
+    {
+        $page = $page ?: (\Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof \Illuminate\Support\Collection ? $items : \Illuminate\Support\Collection::make($items);
+        return new \Illuminate\Pagination\LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
     public function create()
     {
-        $reinstatement = (DB::select("call mostrar_proveedores_por_nombre()"));
-        return view('RequestForReinstatement.create',compact('reinstatement'));
+        $materials = DB::select("call sp_nroDeParte_UnindadMedida()");
+        $reinstatement = (DB::select("call sp_mostrar_proveedores_por_nombre()"));
+        $nuevoCodigo = DB::select("call sp_generar_codigo_para_solicitud_de_reposicion()");
+        return view('RequestForReinstatement.create',compact('reinstatement', 'materials', 'nuevoCodigo'));
     }
-
-    public function store(Request $request)
+    public function save(Request $request)
     {
-       
-    }
-    public function save(Request $request){
+        $CodReposicion = $request->Codigo_reposicion;
         $CodProveedor = $request->Proveedor;
         $FechaRequer = $request->Fecha;
         $error = Validator::make($request->all(),[
             'numParte.*'  => 'required',
-            'cant.*'  => 'required|numeric'
+            'cant.*'  => 'required|numeric',
+            'Fecha' => 'required',
+            'Proveedor' => 'required'
         ]);
-        if( !($error->passes()) ){
+        $unique = array_unique($request->numParte);
+        $duplicates = array_diff_assoc($request->numParte, $unique);
+
+        if( (!($error->passes())) || (count($duplicates) != 0) ){
             return response()->json(['status'=>0,'error' => $error->errors()->toArray()]);
         }
         else
@@ -64,50 +86,56 @@ class RequestForReinstatementController extends Controller
                 );
                 $insert_data[] = $data;
             }
-            //Nueva Solicitud de Requerimiento
-            //DB::select("call sp_nueva_solicitud_reposicion('$CodProveedor','$FechaRequer')");
+            //Nueva Solicitud de Requerimiento o Actualizacion de la misma
+            DB::select("call sp_agregar_o_actualizar_solicitud_reposicion('$CodReposicion','$CodProveedor','$FechaRequer')");
             //Ingresar Requerimientos (Solicitados)
+            DB::select("call sp_softdelete_para_solicitados('$CodReposicion')");
             foreach ($insert_data as &$valor) {
-                //DB::select("call sp_nuevo_solicitado('$valor[numParte]','$valor[cant]','$valor[prior]','$valor[observ]')");
+                DB::select("call sp_agregar_o_actualizar_solicitado('$valor[numParte]','$CodReposicion','$valor[cant]','$valor[prior]','$valor[observ]')");
             }
-            return response()->json([
-            'success'  => 'Data Added successfully.'
-            ]);
+            return response()->json(['status'=>2, 'success'  => 'Data Added successfully.']);
         }
 
     }
-    public function show($id, Request $request)
+    public function showRequirement($id, Request $request)
     {
-        $reinstatement = RequestForReinstatement::find($id);
-        $reinstatements0 = (DB::select("call mostrar_solicitados_por_codigo('$id')"));
-        //return $reinstatement->provider->Razon_social;
+        $reinstatement = DB::select("call sp_detalle_de_SolicitudReposicion('$id')");
+        $reinstatements0 = (DB::select("call sp_mostrar_solicitados_por_codigo('$id')"));
         return view('RequestForReinstatement.show',compact('reinstatement'),compact('reinstatements0'));
-
-        /*$Codprov = auth()->reinstatement('Codigo_proveedor');
-        $provid = Provider::find($Codprov);
-        */
-       // echo "<pre>";
-        //print_r($reinstatements0);
     }
-    
-
-    public function edit(RequestForReinstatement $requestForReinstatement)
+    public function edit($requestForReinstatement)
     {
-        return view('RequestForReinstatement.edit',compact('requestForReinstatement'));
+        $materials = DB::select("call sp_nroDeParte_UnindadMedida()");
+        $proveedores = (DB::select("call sp_mostrar_proveedores_por_nombre()"));
+        $actuales = DB::select("call sp_detalle_de_SolicitudReposicion('$requestForReinstatement')");
+        $reinstatements0 = (DB::select("call sp_mostrar_solicitados_por_codigo('$requestForReinstatement')"));
+        for($x = 0; $x<count($proveedores); $x++){
+            if($proveedores[$x]->Codigo_proveedor == $actuales[0]->Codigo_proveedor){
+                unset($proveedores[$x]);
+            }
+        }
+        return view('RequestForReinstatement.edit',compact('actuales', 'proveedores', 'materials','reinstatements0'));
     }
-    public function update(Request $request, RequestForReinstatement $requestForReinstatement)
+    public function delete($id)
     {
-        //
+        DB::select("call sp_softdelete_para_solicitud_de_reposicion('$id')");
+        return response()->json(['status'=>1,'success'  => 'Data deleted successfully.']);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\RequestForReinstatement  $requestForReinstatement
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(RequestForReinstatement $requestForReinstatement)
+    public function enable($id)
     {
-        //
+        DB::select("call sp_habilitar_para_solicitud_de_reposicion('$id')");
+        return response()->json(['status'=>1,'success'  => 'Data deleted successfully.']);
+    }
+    public function disabled(){
+        $datos = DB::select("call sp_mostrar_solicitudes_de_reposicion_desabilitadas()");
+        $datos = $this->paginateCollection($datos, 5);
+        $datos->setpath('disabled');
+        return view('RequestForReinstatement.disabled',compact('datos'));    
+    }
+    public function showRequirementDisabled($id, Request $request)
+    {
+        $reinstatement = DB::select("call sp_detalle_de_SolicitudReposicion('$id')");
+        $reinstatements0 = (DB::select("call sp_mostrar_solicitados_por_codigo_desabilitados('$id')"));
+        return view('RequestForReinstatement.show',compact('reinstatement'),compact('reinstatements0'));
     }
 }

@@ -18,14 +18,4 @@ class RequestForReinstatement extends Model
         'Codigo_proveedor',
         'Fecha_solicitud',
     ];
-    function provider(){
-        return $this->belongsTo(Provider::class, 'Codigo_proveedor');
-    }
-    function reinstatements(){
-        return $this->belongsTo(Reinstatement::class, 'Codigo_reposicion');
-    }
-    function Nueva_Solicitud(){
-        
-    }
-
 }
