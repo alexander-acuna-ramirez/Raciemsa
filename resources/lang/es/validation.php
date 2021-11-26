@@ -146,6 +146,7 @@ return [
     |
     */
 
+<<<<<<< HEAD
     'attributes' => [
         'Codigo_guia_remision' => 'código de guía de remisión',
         'Fecha_de_emision' => 'fecha de emisión',
@@ -153,5 +154,8 @@ return [
         'Fin_traslado' => 'fin de traslado',
         'Codigo_proveedor' => 'código de proveedor'
     ],
+=======
+    'attributes' => [],
+>>>>>>> 33b531ef04be3376fd31d4cd3addf8af73e67dd5
 
 ];

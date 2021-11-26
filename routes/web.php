@@ -21,6 +21,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+<<<<<<< HEAD
 
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
 Route::resource("/guide",\App\Http\Controllers\GuideController::class);
@@ -37,3 +38,13 @@ Route::get("/downloadPDF",[App\Http\Controllers\GuideController::class, 'downloa
 
 
 
+=======
+Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
+
+Route::resource("/material",\App\Http\Controllers\MaterialController::class);
+Route::post('/material/store', [App\Http\Controllers\MaterialController::class, 'storeMaterial']);
+Route::get("/searchCatalog/{id}",[App\Http\Controllers\MaterialController::class, 'searchCatalog']);
+Route::get("/materialfilter/{id}",[App\Http\Controllers\MaterialController::class, 'materialfilter']);
+Route::get("/searchMaterialsap",[App\Http\Controllers\MaterialController::class, 'searchMaterialsap']);
+Route::get("/showMaterial/{id}",[App\Http\Controllers\MaterialController::class, 'showMaterial']);
+>>>>>>> 33b531ef04be3376fd31d4cd3addf8af73e67dd5

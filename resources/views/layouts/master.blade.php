@@ -22,6 +22,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <script src="{{asset('/js/app.js')}}"></script>
 
     <script src="{{asset('/js/app.js')}}"></script>
 
@@ -99,8 +100,13 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
+<<<<<<< HEAD
     <!-- <script src="{{asset('admin/vendor/jquery/jquery.min.js')}}"></script> -->
     <!-- <script src="{{asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script> -->
+=======
+    <!--<script src="{{asset('admin/vendor/jquery/jquery.min.js')}}"></script>-->
+    <!--<script src="{{asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>-->
+>>>>>>> 33b531ef04be3376fd31d4cd3addf8af73e67dd5
 
     <!-- Core plugin JavaScript-->
     <!-- <script src="{{asset('admin/vendor/jquery-easing/jquery.easing.min.js')}}"></script> -->
