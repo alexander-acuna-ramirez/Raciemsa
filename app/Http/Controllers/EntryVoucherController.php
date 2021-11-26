@@ -17,10 +17,6 @@ class EntryVoucherController extends Controller
     public function index()
     {
         //$datos = DB::select(DB::raw('CALL sp_obtener_entradas()'))->paginate(5);
-        /*
-        if($request->session()->has('Eliminar'));{
-            $request->session()->forget('Eliminar');
-        }*/
         $datos = EntryVoucher::where('Activo',1)->orderBy("ID_vale_entrada","DESC")->paginate(5);
         return view('entryvoucher.index',compact('datos'));
     }
@@ -83,6 +79,18 @@ class EntryVoucherController extends Controller
 
     }
 
+    public function reportEntries()
+    {
+        return view('entryvoucher.report');
+    }
+
+
+
+
+
+
+
+
     public function searchGuide($code){
         $data = DB::select("call sv_buscar_guia('".$code."')");
         return response()->json($data);
@@ -125,7 +133,7 @@ class EntryVoucherController extends Controller
     public function entryVoucherPDF($id){
         $voucher = EntryVoucher::findOrFail($id);
         $entries = DB::select("call sv_obtener_entradas('".$id."')");
-        $pdf = PDF::loadView('entryvoucher.pdf',['voucher'=>$voucher,'entries'=>$entries]);
+        $pdf = PDF::loadView('entryvoucher.pdf',['voucher'=>$voucher,'entries'=>$entries])->setPaper('a5', 'landscape');
         return $pdf->download('vale.pdf');
     }
     public function chartEntryMonth(){

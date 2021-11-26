@@ -25,6 +25,7 @@ Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
 Route::resource("/entryvoucher",\App\Http\Controllers\EntryVoucherController::class);
 Route::get("/searchGuide/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchGuide']);
 Route::get("/searchProduct/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchProduct']);
+Route::get("/reportEntries",[App\Http\Controllers\EntryVoucherController::class, 'reportEntries']);
 Route::get("/searchLocationsEntries/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchLocationsEntries']);
 //charts
 Route::get("/entryVoucherToday",[App\Http\Controllers\EntryVoucherController::class, 'entryVoucherToday']);

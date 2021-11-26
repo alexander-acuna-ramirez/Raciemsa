@@ -5,7 +5,11 @@
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Vales de entrada</h1>
             <div class="d-sm-flex">
-                <a href="{{url('entryvoucher/create')}}" class="btn btn-sm btn-success shadow-sm">
+                <a href="{{url('/reportEntries')}}" class="btn btn-sm btn-warning shadow-sm mx-2">
+                    <i class="fas fa-file-alt text-white-50"></i>
+                    Reporte de entradas
+                </a>
+                <a href="{{url('entryvoucher/create')}}" class="btn btn-sm btn-success shadow-sm mx-2">
                     <i class="fas fa-plus-circle text-white-50"></i>
                     Crear vale
                 </a>
@@ -14,7 +18,7 @@
                     Filtros
                 </a>
                 <form action="{{url('/entriesDeleted')}}" type="GET">
-                    <button type="submit" href="#collapseMaterial" class="btn btn-sm btn-secondary shadow-sm">
+                    <button type="submit" href="#collapseMaterial" class="btn btn-sm btn-secondary shadow-sm mx-2">
                         <i class="fas fa-eye text-white-50"></i>Deshabilitados</button>
                 </form>
             </div>
