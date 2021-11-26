@@ -33,8 +33,15 @@
             <i class="fas fa-book"></i>
             <span>Catalogos</span></a>
     </li>
+    <!-- Heading -->
     
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('material')}}">
+            <i class="fas fa-book"></i>
+            <span>Materiales</span></a>
+    </li>
 
+   
 
 
 

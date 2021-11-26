@@ -22,3 +22,10 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource("/catalog",\App\Http\Controllers\CatalogController::class);
+
+Route::resource("/material",\App\Http\Controllers\MaterialController::class);
+Route::post('/material/store', [App\Http\Controllers\MaterialController::class, 'storeMaterial']);
+Route::get("/searchCatalog/{id}",[App\Http\Controllers\MaterialController::class, 'searchCatalog']);
+Route::get("/materialfilter/{id}",[App\Http\Controllers\MaterialController::class, 'materialfilter']);
+Route::get("/searchMaterialsap",[App\Http\Controllers\MaterialController::class, 'searchMaterialsap']);
+Route::get("/showMaterial/{id}",[App\Http\Controllers\MaterialController::class, 'showMaterial']);
