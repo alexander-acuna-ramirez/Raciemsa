@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use DB;
 
 class SupplierController extends Controller
@@ -22,11 +23,14 @@ class SupplierController extends Controller
 
     public function create()
     {
-        return view('supplier.create')->with("Next",$this->calculateID());
+        $now=Carbon::now();
+        return view('supplier.create');
     }
 
     public function store(Request $request)
     {
+        $now=Carbon::now();
+
         DB::select("call Ultimo_proveedor(@id)");
         $convert = DB::select('select @id as last');
         $calculated = strval(intval($convert[0]->last) + 1);
@@ -101,8 +105,10 @@ class SupplierController extends Controller
 
     /*Convertir a procedimiento almacenado*/
     private function calculateID(){
-        $last = Supplier::select('Codigo_proveedor') ->orderBy("Codigo_proveedor","DESC")-> get()->first();
-      }
+        //$last = Supplier::select('Codigo_proveedor') ->orderBy("Codigo_proveedor","DESC")-> get()->first();
+        $codProv=("call NuevoCodigoProveedor()");
+        return response()->json($codProv);
+    }
 
     public function show($id)
     {
@@ -121,11 +127,21 @@ class SupplierController extends Controller
     public function edit(Supplier $supplier)
     {
         //return response()->json(["msg"=>$catalog]);
+        return view('supplier.edit',compact('Supplier'));
     }
 
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $request->validate([
+            'Codigo_proveedor' => 'required|max:10|min:10',
+            'RUC' => 'required|max:11|min:11',
+            'Razon_social' =>'required',
+            'Telefono'=> 'required|max:12|min:18',
+            'Correo' => 'required',
+            'Direccion' => 'required'
+        ]);
+        $supplier->update($request->except("_token"));
+        return redirect('/supplier');
     }
 
     public function destroy($Id)
@@ -137,9 +153,7 @@ class SupplierController extends Controller
             return redirect()->route('supplier.index')->with('Eliminar','Bad');
         }
     }
-    public function saveEntries(Request $request){
-        //
-    }
+   
 
     public function searchSupplier(Request $request)
     {
@@ -155,7 +169,7 @@ class SupplierController extends Controller
         return view('supplier.SupplierdisabledRequest')->with(compact('datos'));
     }
     
-    public function searchEmail($code){
+   /*public function searchEmail($code){
         
         $data = DB::table('correos')
                 ->select('correos.Id_correo',
@@ -190,5 +204,5 @@ class SupplierController extends Controller
                 ->get();
         return response()->json($data);
 
-    }
+    }*/
 }

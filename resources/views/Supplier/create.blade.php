@@ -59,5 +59,7 @@
             </div>
         </div>
 </div>
-
+@endsection
+@section('js')
+    <script src="{{asset('/js/assets/suppliers.js')}}"></script>
 @endsection
