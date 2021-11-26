@@ -7,7 +7,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Validator;
-
+use PDF;
 use DB;
 
 class RequestForReinstatementController extends Controller
@@ -29,6 +29,15 @@ class RequestForReinstatementController extends Controller
         $datos = $this->paginateCollection($datos,5);
         $datos->setpath($request->path());
         return view('RequestForReinstatement.index',compact('datos'));
+    }
+    public function searchdisabled(Request $request)
+    {
+        $fromDate = $request->fromDate;
+        $toDate = $request->toDate;
+        $datos = DB::select("call sp_buscar_solicitudReposicion_desabilitados_entre_fechas('$fromDate','$toDate')");
+        $datos = $this->paginateCollection($datos,5);
+        $datos->setpath('disabled');
+        return view('RequestForReinstatement.disabled',compact('datos'));
     }
     public function paginateCollection($items, $perPage = 15, $page = null, $options = [])
     {
@@ -137,5 +146,14 @@ class RequestForReinstatementController extends Controller
         $reinstatement = DB::select("call sp_detalle_de_SolicitudReposicion('$id')");
         $reinstatements0 = (DB::select("call sp_mostrar_solicitados_por_codigo_desabilitados('$id')"));
         return view('RequestForReinstatement.show',compact('reinstatement'),compact('reinstatements0'));
+    }
+    public function export($id)
+    {
+        $cab = DB::select("call sp_detalle_de_SolicitudReposicion('$id')");
+        $data = (DB::select("call sp_export_invidivual_solicitud_de_reposicion('$id')"));
+        $proveed = DB::select("call sp_detalle_de_SolicitudReposicion_pdf('$id')");
+        $datos = compact('cab','data','proveed');
+        $pdf = PDF::loadView('RequestForReinstatement.export',$datos)->setPaper('a4', 'landscape');;
+        return $pdf->stream();
     }
 }

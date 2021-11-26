@@ -241,7 +241,7 @@
                             toast: true,
                             position: 'top-end',
                             showConfirmButton: false,
-                            timer: 3000,
+                            timer: 2500,
                             timerProgressBar: true,
                             didOpen: (toast) => {
                                 toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -258,8 +258,8 @@
                         count = 1;
                         count2 = 1;
                         setTimeout(function () {
-                            location.reload(true);
-                        },3500);
+                            window.location=('{{ route("RequestForReinstatement.index") }}');
+                        },3000);
                     }
                     $('#save').attr('disabled', false);
                 }

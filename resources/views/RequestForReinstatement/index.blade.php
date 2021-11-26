@@ -11,12 +11,16 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="m-0 text-left row">
-                <div class="p-0 col-9">
-                <h6 class="m-0 pt-2 font-weight-bold text-primary">Lista de Solicitudes de Reposicion</h6>
+                <div class="col p-0 ">
+                    <h6 class="m-0 pt-2 font-weight-bold text-primary">Lista de Solicitudes de Reposicion</h6>
                 </div>
-                <div class="text-right p-0 col-3">
-                <a href="{{url('/RequestForReinstatement/disabled')}}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
-                <i class="fa fa-eye text-white-70"></i> Mostrar Desabilitados </a>
+                <div class="d-sm-flex">
+                    <a data-toggle="collapse" href="#collapseMaterial" class="btn btn-sm btn-primary shadow-sm mx-2" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fas fa-sliders-h text-white-50"></i></i>
+                    Filtros
+                    </a>
+                    <a href="{{url('/RequestForReinstatement/disabled')}}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+                    <i class="fa fa-eye text-white-70"></i> Mostrar Desabilitados </a>
                 </div>
             </div>
         </div>
@@ -25,48 +29,50 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12" >
-                            <form action="{{ route('RequestForReinstatement.search')}}" method="POST" id="" enctype="multipart/form-data"> 
-                            @csrf
-                                <div class="form-group row">
-                                    <label for="date" class="col-form-label">Fecha Solicitud:</label>
-                                    <div class="col-sm-3">
-                                        <div class="input-group date" id="datepicker">
-                                            <input type="text"  class="form-control readonlyD" name="fromDate" id="fromDate" placeholder="De" data-date-language="es"  required autocomplete="off">
-                                            <span class="input-group-append">
-                                                <span class="input-group-text bg-white">
-                                                    <i class="fa fa-calendar" style="color:blue;"></i>
+                            <div class="collapse" id="collapseMaterial">
+                                <form action="{{ route('RequestForReinstatement.search')}}" method="POST" id="" enctype="multipart/form-data"> 
+                                @csrf
+                                    <div class="form-group row">
+                                        <label for="date" class="col-form-label">Fecha Solicitud:</label>
+                                        <div class="col-sm-3">
+                                            <div class="input-group date" id="datepicker">
+                                                <input type="text"  class="form-control readonlyD" name="fromDate" id="fromDate" placeholder="De" data-date-language="es"  required autocomplete="off">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar" style="color:blue;"></i>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        </div>                            
-                                    </div>
-                                    <label for="date" class="col-form-label">Fecha Solicitud:</label>
-                                    <div class="col-sm-3">
-                                        <div class="input-group date" id="datepicker">
-                                            <input type="text"  class="form-control readonlyD" name="toDate" id="toDate" placeholder="Hasta" data-date-language="es" required autocomplete="off">
-                                            <span class="input-group-append">
-                                                <span class="input-group-text bg-white">
-                                                    <i class="fa fa-calendar" style="color:blue;"></i>
+                                            </div>                            
+                                        </div>
+                                        <label for="date" class="col-form-label">Fecha Solicitud:</label>
+                                        <div class="col-sm-3">
+                                            <div class="input-group date" id="datepicker">
+                                                <input type="text"  class="form-control readonlyD" name="toDate" id="toDate" placeholder="Hasta" data-date-language="es" required autocomplete="off">
+                                                <span class="input-group-append">
+                                                    <span class="input-group-text bg-white">
+                                                        <i class="fa fa-calendar" style="color:blue;"></i>
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        </div>                             
-                                    </div>
-                                    <div class="col">
-                                        <br> 
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="container pl-0">
-                                            <div class="row">
-                                                <button type="submit" class="btn btn-primary mr-4" name="search" title="Search" style="margin:0;">
-                                                    <span class="icon text-white-60">
-                                                    <i class="fa fa-search" aria-hidden="true"></i></span>
-                                                </button>
-                                                <a type="button" class="btn btn-secondary btn-md"  href='{{ route("RequestForReinstatement.index") }}'>
-                                                <span class="text">Mostrar Todo</span></a>
+                                            </div>                             
+                                        </div>
+                                        <div class="col">
+                                            <br> 
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="container pl-0">
+                                                <div class="row">
+                                                    <button type="submit" class="btn btn-primary mr-4" name="search" title="Search" style="margin:0;">
+                                                        <span class="icon text-white-60">
+                                                        <i class="fa fa-search" aria-hidden="true"></i></span>
+                                                    </button>
+                                                    <a type="button" class="btn btn-secondary btn-md"  href='{{ route("RequestForReinstatement.index") }}'>
+                                                    <span class="text">Mostrar Todo</span></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -96,6 +102,10 @@
                                     <span class="icon text-white-60">
                                     <i class="fa fa-edit" aria-hidden="true"></i></span>
                                 </a>
+                                <a class="btn btn-dark  btn-md" href="{{url('/RequestForReinstatement/'.$data->Codigo_reposicion.'/export')}}">
+                                    <span class="icon text-white-60">
+                                    <i class="fa fa-file" aria-hidden="true"></i>
+                                </a>
                                 <button class="btn btn-danger btn-flat btn-md remove-user" data-id="{{ $data->Codigo_reposicion }}" data-action="{{ route('RequestForReinstatement.delete',$data->Codigo_reposicion) }}" onclick="deleteConfirmation('{{$data->Codigo_reposicion}}','{{$data->Fecha_solicitud}}')">
                                     <span class="icon text-white-60">
                                     <i class="fa fa-trash" aria-hidden="true"></i></span>
@@ -123,11 +133,11 @@
     function deleteConfirmation(id, date) {
         Swal.fire({
             title: "¿Estas Seguro?",
-            html: 'La solicitud: <strong>'+id+' ('+date+')</strong> sera eliminada',
+            html: 'La solicitud: <strong>'+id+' ('+date+')</strong> sera desabilitada',
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: '#2C4CF8',
-            confirmButtonText: "Eliminar Solicitud",
+            confirmButtonText: "Desabilitar Solicitud",
             cancelButtonColor: '#d33',
             cancelButtonText: "Cancelar"
         }).then(function (e) {
@@ -156,7 +166,7 @@
                             })
                             Toast.fire({
                                 icon: 'success',
-                                html: 'La solicitud: <strong>'+id+' ('+date+')</strong> fue eliminada correctamente',
+                                html: 'La solicitud: <strong>'+id+' ('+date+')</strong> fue desabilitada correctamente',
                             });
                             setTimeout(function () {
                                 location.reload(true);
