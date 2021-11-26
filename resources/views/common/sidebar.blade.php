@@ -35,16 +35,21 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{url('material')}}">
-            <i class="fas fa-book"></i>
+            <i class="fas fa-boxes"></i>
             <span>Materiales</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('supplier')}}">
+            <i class="fas fa-people-carry"></i>
+            <span>Proveedores</span></a>
+        </li>
     <!-- Heading -->
     <div class="sidebar-heading">
         Documentos
     </div>
     <li class="nav-item">
         <a class="nav-link" href="{{url('entryvoucher')}}">
-            <i class="fas fa-book"></i>
+            <i class="fas fa-ticket-alt"></i>
             <span>Vales de entrada</span></a>
     </li>
     

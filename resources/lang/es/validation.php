@@ -118,35 +118,12 @@ return [
     'url'                  => 'El formato del campo :attribute es inválido.',
     'uuid'                 => 'El campo :attribute debe ser un UUID válido.',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify custom validation messages for attributes using the
-    | convention "attribute.rule" to name the lines. This makes it quick to
-    | specify a specific custom language line for a given attribute rule.
-    |
-    */
 
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Custom Validation Attributes
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used to swap attribute place-holders
-    | with something more reader friendly such as E-Mail Address instead
-    | of "email". This simply helps us make messages a little cleaner.
-    |
-    */
-
-<<<<<<< HEAD
     'attributes' => [
         'Codigo_guia_remision' => 'código de guía de remisión',
         'Fecha_de_emision' => 'fecha de emisión',
@@ -154,8 +131,5 @@ return [
         'Fin_traslado' => 'fin de traslado',
         'Codigo_proveedor' => 'código de proveedor'
     ],
-=======
-    'attributes' => [],
->>>>>>> 33b531ef04be3376fd31d4cd3addf8af73e67dd5
 
 ];

@@ -64,3 +64,17 @@ Route::get("/searchEntryVoucherProv",[App\Http\Controllers\EntryVoucherControlle
 Route::get("/searchEntryVoucherDate",[App\Http\Controllers\EntryVoucherController::class, 'searchEntryVoucherDate']);
 Route::get("/entryVoucherPDF/{id}",[App\Http\Controllers\EntryVoucherController::class, 'entryVoucherPDF']);
 
+Route::resource("/supplier",\App\Http\Controllers\SupplierController::class);
+/*Route::resource("/address",\App\Http\Controllers\AddressController::class);
+Route::resource("/email",\App\Http\Controllers\EmailController::class);
+Route::resource("/phone",\App\Http\Controllers\PhoneController::class);*/
+//Route::get("/searchSupplier{id}",[App\Http\Controllers\SupplierController::class, 'searchSupplier']);
+
+Route::get("/searchSupplier",[App\Http\Controllers\SupplierController::class, 'searchSupplier']);
+Route::get('/supplierDisabledRequest', [App\Http\Controllers\SupplierController::class, "SupplierRequestDisabled"]);
+
+//Los siguientes tengo que ver si se usaran//
+Route::get("/searchPhone{id}",[App\Http\Controllers\SupplierController::class, 'searchPhone']);
+Route::get("/searchEmail/{id}",[App\Http\Controllers\SupplierController::class, 'searchEmail']);
+Route::get("/searchAddress/{id}",[App\Http\Controllers\SupplierController::class, 'searchAddress']);
+
