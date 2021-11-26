@@ -13,6 +13,7 @@ class RequestForReinstatementController extends Controller
 {
     public function index()
     {
+        
         $datos = DB::select("call mostrar_solicitudes_de_reposicion()");
         return view('RequestForReinstatement.index')->with('datos',$datos);
     }
