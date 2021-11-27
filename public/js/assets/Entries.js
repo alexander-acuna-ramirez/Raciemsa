@@ -102,7 +102,7 @@ function checkEntries(){
         problems.push(`Hay ${checkEntries.length} entradas sin una cantidad`);
     }
     if(searchGuide.disabled == false){
-        problems.push(`Falta vincular una guia de remision`);
+        problems.push(`Falta vincular una guía de remisión`);
     }
     return problems;
 

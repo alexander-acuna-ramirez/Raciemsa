@@ -32,7 +32,7 @@ class EntryVoucherController extends Controller
 
     public function store(Request $request)
     {
-        DB::select("call sv_obtener_ultimo_codigo(@id)");
+        DB::select("call sp_obtener_ultimo_codigo(@id)");
         $convert = DB::select('select @id as last');
         $calculated = strval(intval($convert[0]->last) + 1);
         $calculated = strlen($calculated) < 8 ? str_repeat("0",8 - strlen($calculated)).$calculated : $calculated;
@@ -51,7 +51,7 @@ class EntryVoucherController extends Controller
     public function show($id)
     {
         $voucher = EntryVoucher::findOrFail($id);
-        $entries = DB::select("call sv_obtener_entradas('".$id."')");
+        $entries = DB::select("call sp_obtener_entradas('".$id."')");
         return view('entryvoucher.show')
             ->with(compact('voucher'))
             ->with(compact('entries'));
@@ -96,7 +96,7 @@ class EntryVoucherController extends Controller
     }
 
     public function searchGuide($code){
-        $data = DB::select("call sv_buscar_guia('".$code."')");
+        $data = DB::select("call sp_buscar_guia('".$code."')");
         return response()->json($data);
     }
 
@@ -106,7 +106,7 @@ class EntryVoucherController extends Controller
         return response()->json($data);
     }
     public function entriesDeleted(){
-        $datos = DB::select("call sv_obtener_entradas_desactivadas()");
+        $datos = DB::select("call sp_obtener_entradas_desactivadas()");
         return view('entryvoucher.disabled')->with(compact('datos'));
     }
     public function searchEntryVoucherProv(Request $request){
@@ -137,7 +137,7 @@ class EntryVoucherController extends Controller
     }
     public function entryVoucherPDF($id){
         $voucher = EntryVoucher::findOrFail($id);
-        $entries = DB::select("call sv_obtener_entradas('".$id."')");
+        $entries = DB::select("call sp_obtener_entradas('".$id."')");
         $pdf = PDF::loadView('entryvoucher.pdf',['voucher'=>$voucher,'entries'=>$entries])->setPaper('a5', 'landscape');
         return $pdf->download('ValeDeEntrada '.$id.'.pdf');
     }

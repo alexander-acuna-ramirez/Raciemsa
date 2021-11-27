@@ -51,6 +51,7 @@ Route::get("/searchProduct/{id}",[App\Http\Controllers\EntryVoucherController::c
 Route::get("/reportEntries",[App\Http\Controllers\EntryVoucherController::class, 'reportEntries']);
 Route::post("/reportEntriesSearch",[App\Http\Controllers\EntryVoucherController::class, 'reportEntriesSearch']);
 Route::get("/reportEntriesPDF",[App\Http\Controllers\EntryVoucherController::class, 'reportEntriesPDF']);
+Route::get("/downloadPDFall",[App\Http\Controllers\GuideController::class, 'downloadPDFall'])->name('downloadPDFall');
 
 
 Route::get("/searchLocationsEntries/{id}",[App\Http\Controllers\EntryVoucherController::class, 'searchLocationsEntries']);

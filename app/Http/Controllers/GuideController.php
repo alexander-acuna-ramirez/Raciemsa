@@ -193,6 +193,15 @@ class GuideController extends Controller
 
     }
 
+    public function downloadPDFall()
+    {
+        $datos = DB::select(" call sp_reporte_guias_con_proveedor()");
+                
+        $pdf = PDF::loadView('guide.allpdf',['datos'=>$datos]);
+        return $pdf->download('guiaRemisionTotal.pdf');
+
+    }
+
     public function paginate($items, $perPage = 5, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);

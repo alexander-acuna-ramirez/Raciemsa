@@ -137,7 +137,7 @@
                     form.addEventListener("submit",function (e){
                         e.preventDefault();
                         Swal.fire({
-                            title: '¿Estas seguro?',
+                            title: '¿Estás seguro?',
                             text: "El registro se deshabilitara",
                             icon: 'warning',
                             showCancelButton: true,

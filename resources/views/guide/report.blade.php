@@ -26,19 +26,27 @@
                             name="FecEmis" id="FecEmis">
                         </div>
 
-                        <div class="col-6" style="padding:30px;">
+                        <div class="col-6" style="padding:30px;padding-bottom:15px;padding-top:10px;">
                             <a href="{{url()->previous()}}" class="btn btn-primary btn-icon-split float-right mx-1">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-arrow-circle-left"></i>
                                 </span>
                                 <span class="text">Volver</span>
                             </a>
-                            <button class="btn btn-danger btn-icon-split float-right mx-1" type="submit">
+                            <button class="btn btn-danger btn-icon-split float-right mx-3" type="submit">
                                 <span class="icon text-white-50">
-                                    <i class="fas fa-file-alt text-white-50""></i>
+                                    <i class="fas fa-file-alt text-white-50"></i>
                                 </span>
                                 <span class="text">Imprimir</span>
                             </button>
+                        </div>
+                        <div class="col-12" style="padding-right:30px;">
+                            <a class="btn btn-danger btn-icon-split float-right mx-1" href="{{route('downloadPDFall')}}">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-file-alt text-white-50"></i>
+                                </span>
+                                <span class="text">Reporte de todas las guías</span>
+                            </a>
                         </div>
                     </div>
                 </form>
