@@ -87,7 +87,7 @@ class CatalogController extends Controller
         $data = DB::select("call sp_delete_catalog('".$id."')");
         return redirect('/catalog');
     }
-
+    
     public function reportCatalogPDF($id)
     {
         $listCat= DB::select("call sp_listar_catalog_id('$id')");

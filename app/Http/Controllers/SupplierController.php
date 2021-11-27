@@ -73,8 +73,6 @@ class SupplierController extends Controller
         
     } 
     
-
-    /*Convertir a procedimiento almacenado*/
     private function calculateID(){
         //$last = Supplier::select('Codigo_proveedor') ->orderBy("Codigo_proveedor","DESC")-> get()->first();
         $codProv=("call NuevoCodigoProveedor()");

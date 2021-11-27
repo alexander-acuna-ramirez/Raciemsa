@@ -44,7 +44,7 @@
                                     @foreach ($phones as $phone)
                                     <tr>
                                         <td>
-                                            <input type="text" class='form-control' value="{{ $phone->Telefono }}"> 
+                                            <input type="text" class='form-control' value="{{ $phone->Telefono }}" readonly> 
                                         </td>
                                     </tr>
                                     @endforeach
@@ -64,7 +64,7 @@
                                     @foreach ($emails as $email)
                                     <tr>
                                         <td>
-                                            <input type="text" class='form-control' value="{{ $email->Correo }}"> 
+                                            <input type="text" class='form-control' value="{{ $email->Correo }}" readonly> 
                                         </td>
                                     </tr>
                                     @endforeach
@@ -84,7 +84,7 @@
                                     @foreach ($addresses as $add)
                                     <tr>
                                         <td>
-                                            <input type="text" class='form-control' value="{{ $add->Direccion }}"> 
+                                            <input type="text" class='form-control' value="{{ $add->Direccion }}" readonly> 
                                         </td>
                                     </tr>
                                     @endforeach

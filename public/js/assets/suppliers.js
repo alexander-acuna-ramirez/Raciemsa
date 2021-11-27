@@ -114,7 +114,9 @@ function getDataAndValidate(){
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    window.location.replace("/supplier");
+                    setTimeout(function () {
+                        window.location.replace("/supplier");
+                    },2000);
                 }else{
                     Swal.fire({
                         icon: 'warning',

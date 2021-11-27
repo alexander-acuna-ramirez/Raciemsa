@@ -12,7 +12,7 @@
                     <div class="form-group">
                         <label>Buscar codigo proveedor</label>
                         <div class="input-group flex-nowrap">
-                            <input id="inputProv" type="text" name="Codigo_guia_remision" class="form-control" placeholder="Codigo guia de remisión">
+                            <input id="inputProv" type="text" name="Codigo_guia_remision" class="form-control" placeholder="Codigo proveedor">
                             <div class="input-group-append">
                                 <button id="searchBtn" class="btn btn-primary border-0" type="button">
                                     <i class="fas fa-search fa-sm"></i>
