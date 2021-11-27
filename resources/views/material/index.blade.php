@@ -13,7 +13,7 @@
 
     <nav class="navbar navbar-light ">
         <form class="form-inline" type="GET" action="{{ url('/searchMaterialsap') }}">
-            <input name="buscarNParte" class="form-control mr-sm-2" type="search" placeholder="Numero de Parte"
+            <input name="buscarNParte" class="form-control mr-sm-2" type="search" placeholder="Número de Parte"
                 aria-label="Search">
                 <input name="buscarsap" id="buscarsap" class="form-control mr-sm-2" type="search" placeholder="Código SAP"
                 aria-label="Search">
@@ -36,7 +36,7 @@
                             <th>Código SAP</th>
                             <th>Descripción</th>
                             <th>U. M.</th>                            
-                            <th>Ubicacion</th>
+                            <th>Ubicación</th>
                             <th>Stock</th>
                             <th>Detalle</th>
                             <th>Acciones</th>
@@ -55,23 +55,14 @@
                                 onclick='showMaterial(this)' class="btn btn-info">
                                     <i class="fas fa-eye"></i>
                                 </button></td>
-                            <td>                          
-                                                           
-                                <form onsubmit="myFunction()" action="{{url('/material/'.$dataM->Numero_de_parte)}}"
-                                    method="post" class="formActionsMaterial">
-                                    
-                                    <a class="btn btn-success" href="{{url('/material/'.$dataM->Numero_de_parte)}}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-
-                                    
-                                    @csrf
-                                    {{ method_field('DELETE') }}
-                                    <button type="submit" class="btn btn-danger " value="Borrar">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-
-                                </form>
+                                <td>                                                        
+                                <a class="btn btn-success" href="{{url('/material/'.$dataM->Numero_de_parte)}}">
+                                    <i class="fas fa-edit"></i>
+                                 </a>
+                                 <button class="btn btn-danger btn-flat btn-md remove-material" data-id="{{ $dataM->Numero_de_parte }}" data-action="{{ route('Material.delete',$dataM->Numero_de_parte) }}" onclick="deleteConfirmation('{{$dataM->Numero_de_parte}}')">
+                                    <span class="icon text-white-60">
+                                    <i class="fa fa-trash" aria-hidden="true"></i></span>
+                                </button>                                    
                             </td>
                         </tr>
                         @endforeach
@@ -82,6 +73,83 @@
         </div>
     </div>
 </div>
+<script>
+    function deleteConfirmation(numparte){
+        Swal.fire({
+            title: "¿Estás Seguro?",
+            html: 'El material: <strong>'+numparte+'</strong> será eliminado permanentemente',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then(function (e) {
+            if (e.value === true) {
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                var url = "{{ route('Material.delete',[':id']) }}";
+                url = url.replace(':id', numparte);
+                $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: $(this).serialize(),
+                    dataType: 'JSON',
+                    success: function (results) {
+                        if (results.status == 1) {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                width:"25rem",
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+                            Toast.fire({
+                                icon: 'success',
+                                html: 'El material <strong>'+numparte+'</strong> fue eliminado correctamente',
+                            });
+                            setTimeout(function () {
+                                location.reload(true);
+                            },3500);
+                        }else{
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                width:"25rem",
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+                            var errores = JSON.stringify(results.error);
+                            var test = errores.substr(28,39);
+                            Toast.fire({
+                                icon: 'error',
+                                html: '<strong>El material '+numparte+' '+test+'</strong>',
+                            });
+                        }
+                    }
+                });
+            }else{
+                e.dismiss;
+            }
+        },function (dismiss) {
+            return false;
+        })
+    }
+</script>
 <script>
                     const forms = document.querySelectorAll('.formActionsMaterial');
                     forms.forEach((form) => {
@@ -114,9 +182,9 @@
             if(response.status===200 && response.data.length>0){
                 Swal.fire({
                     icon: 'info',
-                    title: 'Detalles:',
+                    title: 'Detalles del material:',
                     html:
-    "<div ><strong>Codigo de catalogo: </strong>"+response.data[0].ID_Catalogo +"<br> <strong>Cotización: </strong>"+response.data[0].Cotizacion+" <strong>Total: </strong>"+response.data[0].Total+" </div>"
+    "<div ><strong>Código de catálogo: </strong>"+response.data[0].ID_Catalogo +"<br> <strong>Cotización: </strong>"+response.data[0].Cotizacion+" <strong>Total: </strong>"+response.data[0].Total+" </div>"
                        
                 })
             }

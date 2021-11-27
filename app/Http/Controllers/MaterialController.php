@@ -8,6 +8,7 @@ use App\Models\Material;
 
 use Illuminate\Support\Facades\DB;
 use Response;
+use PDF;
 
 class MaterialController extends Controller
 {
@@ -18,28 +19,32 @@ class MaterialController extends Controller
 
     public function searchMaterialsap()
     {
-        
+        $nparte=$_GET['buscarNParte'];
         $sap=$_GET['buscarsap'];
        
-        if (isset($_GET['id'])){      
-        $datosM = DB::select("call sp_listar_materiales_SAP('".$sap."','".$_GET['id']."')");
-        return view('material.searchSAP')->with('datosM',$datosM)->with('Title',"Materiales filtrados por catalogo");
+        if (isset($_GET['id']) && isset($_GET['buscarNParte'])){      
+        $datosM = DB::select("call sp_listar_materiales_SAP('".$sap."','".$_GET['id']."','".$_GET['buscarNParte']."')");
+        return view('material.searchSAP')->with('datosM',$datosM)->with('Title',"Materiales filtrados por catálogo");
         }else{
+            if (isset($_GET['buscarNParte'])){ 
+                $datosM = DB::select("call sp_listar_materiales_SAP('".$sap."','','".$_GET['buscarNParte']."')");
+                return view('material.searchSAP')->with('datosM',$datosM)->with('Title',"Materiales filtrados por Número de Parte");
+            }else{
             $datosM=DB::select("CALL sp_listar_materiales_SAP ('".$sap."','')");
-            return view('material.searchSAP')->with('datosM',$datosM)->with('Title',"Materiales");
+            return view('material.searchSAP')->with('datosM',$datosM)->with('Title',"Materiales");}
         }
     }
 
     public function index(Request $request)
     {
-        $buscador=$request->get('buscarNParte');
+      
       
        if (isset($_GET['id'])){
-        $datosM=DB::select("CALL sp_listar_materiales_numeroparte ('".$buscador."','".$_GET['id']."')");
+        $datosM=DB::select("CALL sp_listar_materiales_numeroparte ('".$_GET['id']."')");
         return view('material.index')->with('datosM',$datosM)->with('Title',"Materiales filtrados por catalogo");
     }else{
         
-        $datosM=DB::select("CALL sp_listar_materiales_numeroparte ('".$buscador."','')");
+        $datosM=DB::select("CALL sp_listar_materiales_numeroparte ('')");
         return view('material.index')->with('datosM',$datosM)->with('Title',"Materiales");
     }
        
@@ -85,9 +90,8 @@ class MaterialController extends Controller
         '".$validated['Parte_anaquel']."',
         '".$validated['Piso']."',
         '".$validated['Particion']."');");
-        
-
        
+    
        
         return redirect('/material');
         
@@ -99,6 +103,18 @@ class MaterialController extends Controller
 
         return redirect('/material');
     }
+
+    public function delete($id, Request $request)
+    {  
+        try{
+            $data = DB::select("call sp_delete_material('$id')");
+            return response()->json(['status'=>1,'success'  => $id]);
+
+        }catch(\Exception $e){
+            return response()->json(['status'=>0,'error'  => $e]);
+        }
+    }
+
     public function show($id)
     {
         $data = DB::select("call sp_listar_catalog_id ('')");

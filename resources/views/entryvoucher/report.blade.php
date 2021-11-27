@@ -34,11 +34,11 @@
                             <thead>
                             <tr>
                                 <th width="5%">N° Parte</th>
-                                <th width="30%">Descripcion</th>
+                                <th width="30%">Descripción</th>
                                 <th width="5%">Cantidad</th>
                                 <th width="30%">Observaciones</th>
                                 <th width="10%">Vale(ID)</th>
-                                <th width="10%">Recepcion</th>
+                                <th width="10%">Recepción</th>
                                 <th width="10%">Estado</th>
                             </tr>
                             </thead>
