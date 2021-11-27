@@ -57,6 +57,17 @@
         <a class="nav-link" href="{{url('guide')}}">
             <i class="fas fa-book"></i>
             <span>Guía de remisión</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('RequestForReinstatement')}}">
+            <i class="fas fa-book"></i>
+            <span>Solicitudes de Reposicion</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('CorrectionRequest')}}">
+            <i class="fas fa-book"></i>
+            <span>Solicitudes de Correcciones</span></a>
+    </li>
     <!-- Heading -->
 
 

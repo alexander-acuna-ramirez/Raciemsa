@@ -76,6 +76,19 @@ Route::get('/forProv', [App\Http\Controllers\SupplierController::class, "forProv
 Route::get('/forProvData', [App\Http\Controllers\SupplierController::class, "forProvData"]);
 Route::get('/forProvDataPDF', [App\Http\Controllers\SupplierController::class, "forProvDataPDF"]);
 
+
+Route::resource("/CorrectionRequest",\App\Http\Controllers\CorrectionRequestController::class);
+Route::get('/CorrectionRequest/change_status/{codigo}',[App\Http\Controllers\CorrectionRequestController::class,'change_status'])
+->name('change.status.Crequest');
+Route::get("/CorrectionRequest/searchGuide/{id}",[App\Http\Controllers\CorrectionRequestController::class, 'searchGuide']);
+Route::get("/CorrectionRequest/searchProduct/{id}",[App\Http\Controllers\CorrectionRequestController::class, 'searchProduct']);
+Route::get("/searchRequestCorrection",[App\Http\Controllers\CorrectionRequestController::class, 'searchRequest']);
+Route::get("/searchbyDateCorrection",[App\Http\Controllers\CorrectionRequestController::class, 'searchbyDate']);
+Route::get('/CorrectionRequestdisabled', [App\Http\Controllers\CorrectionRequestController::class, "disabledCorrectionRequest"]);
+
+Route::get("/correctionRequestPDF/{id}",[App\Http\Controllers\CorrectionRequestController::class, 'CorrectionRequestPDF']);
+Route::get("/reportCorrections",[App\Http\Controllers\CorrectionRequestController::class, 'reportCorrections']);
+
 //forProvData
 //Los siguientes tengo que ver si se usaran//
 Route::get("/searchPhone{id}",[App\Http\Controllers\SupplierController::class, 'searchPhone']);
@@ -88,3 +101,18 @@ Route::get("/reportCatalogPDF/{id}",[App\Http\Controllers\CatalogController::cla
 Route::get("/reporteValorizado",[App\Http\Controllers\CatalogController::class, 'reporteValorizado'])->name('Catalog.reporteValorizado');
 Route::POST('/catalog/{id}/delete', [App\Http\Controllers\CatalogController::class, 'delete'])->name('Catalog.delete');
 
+
+
+Route::get("/RequestForReinstatement/{requestForReinstatement}/edit",[App\Http\Controllers\RequestForReinstatementController::class, "edit"])->name('RequestForReinstatement.edit');
+Route::get("/RequestForReinstatement",[App\Http\Controllers\RequestForReinstatementController::class,'index'])->name('RequestForReinstatement.index');
+Route::get("/RequestForReinstatement/create",[App\Http\Controllers\RequestForReinstatementController::class,'create'])->name('RequestForReinstatement.create');
+Route::post("/RequestForReinstatement",[App\Http\Controllers\RequestForReinstatementController::class, 'search'])->name('RequestForReinstatement.search');
+Route::post("/RequestForReinstatement/disabled",[App\Http\Controllers\RequestForReinstatementController::class, 'searchdisabled'])->name('RequestForReinstatement.searchdisabled');
+Route::get("/RequestForReinstatement/{requestForReinstatement}/showRequirement",[App\Http\Controllers\RequestForReinstatementController::class, "showRequirement"])->name('RequestForReinstatement.showrequirement');
+Route::get("/RequestForReinstatement/disabled/{requestForReinstatement}/showRequirementDisabled",[App\Http\Controllers\RequestForReinstatementController::class, "showRequirementDisabled"])->name('RequestForReinstatement.showrequirementdisabled');
+Route::post("/RequestForReinstatement/save",[\App\Http\Controllers\RequestForReinstatementController::class, 'save'])->name('RequestForReinstatement.save');
+Route::get("/RequestForReinstatement/getStates/{id}",[App\Http\Controllers\RequestForReinstatementController::class, 'getStates'])->name('RequestForReinstatement.states');
+Route::get("/RequestForReinstatement/{requestForReinstatement}/delete",[App\Http\Controllers\RequestForReinstatementController::class, 'delete'])->name('RequestForReinstatement.delete');
+Route::get("/RequestForReinstatement/disabled/{requestForReinstatement}/enable",[App\Http\Controllers\RequestForReinstatementController::class, 'enable'])->name('RequestForReinstatement.enable');
+Route::get("/RequestForReinstatement/{requestForReinstatement}/export",[App\Http\Controllers\RequestForReinstatementController::class, 'export'])->name('RequestForReinstatement.export');
+Route::get("/RequestForReinstatement/disabled",[App\Http\Controllers\RequestForReinstatementController::class, 'disabled']);

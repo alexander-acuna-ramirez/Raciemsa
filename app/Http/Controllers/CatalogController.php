@@ -6,7 +6,7 @@ use App\Models\Catalog;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use PDF;
+use Barryvdh\DomPDF\Facade as PDF;
 
 use Response;
 class CatalogController extends Controller
@@ -101,7 +101,7 @@ class CatalogController extends Controller
         $fecha=date("Y-m-d");
         $listCat= DB::select("call sp_report_valorizado()");
         $datos = compact('listCat');
-        $pdf = PDF::loadView('catalog.reporteValorizado',$datos)->setPaper('a5', 'landscape');;
+        $pdf = PDF::loadView('catalog.reporteValorizado',$datos)->setPaper('a4', 'landscape');;
         return $pdf->download('CatalogoValorizado '.$fecha.'.pdf');
     }
     public function delete($id, Request $request)
