@@ -31,8 +31,10 @@
             margin-bottom: 10px;
         }
         .cabec{
-            width: 100%;
+            width: 98%;
             margin-bottom: 10px;
+            margin-left: 15px;
+
         }
         .proveedor{
             margin-left: 25px;
@@ -50,20 +52,9 @@
                 <tbody>
                     <th>
                         <td width="73%">
-                            <strong>RACIEMSA S.A.</strong><br>
-                            <strong>Razon social: Racionalización Empresarial S.A </strong> <br>
-                            Direccion: Carretera Variante de Uchumayo<br>
-                            Km 5.5 - Alto Cural Cerro Colodaro<br>
-                            Teléfono: +51 (54) 383970<br>
-                            Email: consultas@raciemsa.com.pe <br>
-                            Arequipa, Perú
-                            <br>
+                            <strong class="cabec">RACIEMSA S.A.</strong><br>
                         </td>
                         <td>
-                        <div class="">
-                            <img src="https://www.raciemsa.com.pe/wp-content/uploads/2021/11/raciemsa-lg-color.png" alt="logo" >
-                        </div>
-                        </td>
                     </th>
                     
                 </tbody>
