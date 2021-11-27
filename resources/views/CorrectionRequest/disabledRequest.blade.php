@@ -63,9 +63,9 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Codigo de Corrección</th>
-                            <th>Codigo de Reposición</th>
-                            <th>Guia de Remisión</th>
+                            <th>Código de Corrección</th>
+                            <th>Código de Reposición</th>
+                            <th>Guía de Remisión</th>
                             <th>Motivo</th>
                             <th>Fecha</th>
                         </tr>

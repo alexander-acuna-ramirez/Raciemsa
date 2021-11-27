@@ -54,7 +54,7 @@
                         <div class="row">
                             <div class="col-md-6 mt-1">
                                 <div class="form-group">
-                                    <label>Buscar guia de remisión</label>
+                                    <label>Buscar guía de remisión</label>
                                     <div class="input-group flex-nowrap">
                                         <input id="inputGuide" type="text" name="Codigo_guia_remision" class="form-control" placeholder="Codigo guia de remisión">
                                         <div class="input-group-append">
@@ -111,7 +111,7 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th width="25%">Numero de Parte</th>
+                                <th width="25%">Número de Parte</th>
                                 <th width="25%">Descripción</th>
                                 <th width="25%">Diferencia</th>
                                 <th width="25%">Acciones</th>                                

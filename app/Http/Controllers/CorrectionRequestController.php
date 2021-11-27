@@ -138,6 +138,6 @@ class CorrectionRequestController extends Controller
         $request = CorrectionRequest::findOrFail($id);
         $corrections = DB::select("call sp_mostrar_correcciones_detalles('".$id."')");
         $pdf = PDF::loadView('CorrectionRequest.pdf',['request'=>$request,'corrections'=>$corrections])->setPaper('a5', 'landscape');
-        return $pdf->download('vale.pdf');
+        return $pdf->download('correcciones.pdf');
     }
 }

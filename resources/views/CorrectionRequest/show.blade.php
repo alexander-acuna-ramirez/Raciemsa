@@ -9,16 +9,16 @@
             <div class="card-body">
                     <div class="row">                 
                             <div class="col-3">
-                                <label for="Codigo_solicitud_correccion">Codigo</label>
+                                <label for="Codigo_solicitud_correccion">Código</label>
                                 <input type="text" class="form-control"  disabled name="Codigo_solicitud_correccion" id="Codigo_solicitud_correccion" value="{{ $solicitud->Codigo_solicitud_correccion }}">
                             </div>
         
                             <div class="col-3">
-                                <label for="Codigo_reposicion">Codigo reposicion</label>
+                                <label for="Codigo_reposicion">Código reposición</label>
                                 <input type="text" class="form-control" disabled name="Codigo_reposicion" id="Codigo_reposicion" value="{{ $solicitud->Codigo_reposicion }}">
                             </div> 
                             <div class="col-3">
-                                <label for="Codigo_guia_remision">Guia de remision</label>
+                                <label for="Codigo_guia_remision">Guía de remision</label>
                                 <input type="text" class="form-control" disabled name="Codigo_guia_remision" id="Codigo_guia_remision" value="{{ $solicitud->Codigo_guia_remision }}">
                             </div>
                             <div class="col-3">
@@ -73,12 +73,13 @@
               
             </div>
         </div>
-    </div>
-
-<a class="btn btn-primary shadow-sm"  href="{{url('/CorrectionRequest/')}}"> 
+        <a class="btn btn-primary shadow-sm"  href="{{url('/CorrectionRequest/')}}"> 
 <i class="fas fa-arrow-circle-left"></i>
 </a>
 <div>
     <h1> </h1>
-</div>  
+</div>
+    </div>
+
+  
 @endsection
