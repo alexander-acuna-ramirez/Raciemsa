@@ -14,7 +14,7 @@
                     <table style="text-align:center;" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Codigo</th>
+                            <th>Código</th>
                             <th>Hora de recepción</th>
                             <th>Fecha de recepción</th>
                             <th>Acciones</th>

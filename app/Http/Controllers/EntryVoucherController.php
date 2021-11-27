@@ -102,7 +102,7 @@ class EntryVoucherController extends Controller
 
     public function searchProduct($code){
 
-        $data = DB::select("call sv_search_product('".$code."')");
+        $data = DB::select("call sp_search_product('".$code."')");
         return response()->json($data);
     }
     public function entriesDeleted(){
@@ -139,7 +139,7 @@ class EntryVoucherController extends Controller
         $voucher = EntryVoucher::findOrFail($id);
         $entries = DB::select("call sv_obtener_entradas('".$id."')");
         $pdf = PDF::loadView('entryvoucher.pdf',['voucher'=>$voucher,'entries'=>$entries])->setPaper('a5', 'landscape');
-        return $pdf->download('vale.pdf');
+        return $pdf->download('ValeDeEntrada '.$id.'.pdf');
     }
     public function chartEntryMonth(){
         $stats = DB::select("call sp_entradas_mensuales()");

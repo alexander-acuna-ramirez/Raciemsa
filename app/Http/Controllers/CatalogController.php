@@ -6,6 +6,7 @@ use App\Models\Catalog;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 use Response;
 class CatalogController extends Controller
@@ -67,16 +68,14 @@ class CatalogController extends Controller
 
 
     public function update(Request $request, Catalog $catalog)
-    {
+    { $ID_Catalogo=$catalog->ID_Catalogo;
+        //dd($ID_Catalogo);
         $validated = $request->validate( [
-            'ID_Catalogo' => 'required|max:8|min:8|alpha_num',
               'Ubicacion' => 'required|digits:4|numeric',
           ]);
-                
-            DB::select("call sp_update_catalog('" . $validated['ID_Catalogo'] . "','"
+            DB::select("call sp_update_catalog('" . $ID_Catalogo . "','"
             . $validated['Ubicacion'] . "')");
-  
-        
+       
     
         return redirect('/catalog');
         //return response()->json(["msg"=>"Something new"]);
@@ -89,6 +88,32 @@ class CatalogController extends Controller
         return redirect('/catalog');
     }
 
+    public function reportCatalogPDF($id)
+    {
+        $listCat= DB::select("call sp_listar_catalog_id('$id')");
+        $materiales= DB::select("call sp_materiales_id_catalog('$id')");
+        $datos = compact('listCat','materiales');
+        $pdf = PDF::loadView('catalog.reportPDF',$datos)->setPaper('a4', 'landscape');;
+        return $pdf->download('Reporte de Catalogo '.$id.'.pdf');
+    }
+    public function reporteValorizado()
+    {
+        $fecha=date("Y-m-d");
+        $listCat= DB::select("call sp_report_valorizado()");
+        $datos = compact('listCat');
+        $pdf = PDF::loadView('catalog.reporteValorizado',$datos)->setPaper('a5', 'landscape');;
+        return $pdf->download('CatalogoValorizado '.$fecha.'.pdf');
+    }
+    public function delete($id, Request $request)
+    {  
+        try{
+            $data = DB::select("call sp_delete_catalog('$id')");
+            return response()->json(['status'=>1,'success'  => $id]);
+
+        }catch(\Exception $e){
+            return response()->json(['status'=>0,'error'  => $e]);
+        }
+    }
  
 }
 

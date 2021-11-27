@@ -1,10 +1,11 @@
 <form method="post" id="form-create">
+    
     <div class="modal fade" id="catalogaddmodal" tabindex="-1" role="dialog" aria-labelledby="catalogaddmodal"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalCatalogoH">Crear catalogo</h5>
+                    <h5 class="modal-title" id="ModalCatalogoH">Crear catálogo</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -15,7 +16,7 @@
                     <div class="row">
                         <div class="col-5">
                         @foreach($nuevoCodigo as $data)
-                            <label for="ID_Catalogo">Codigo</label>
+                            <label for="ID_Catalogo">Código</label>
                             <input type="text" class="form-control" readonly name="ID_Catalogo" id="ID_Catalogo"
                             value="{{ $data->Cod }}">
                             @endforeach
@@ -26,7 +27,7 @@
                         </div>
 
                         <div class="col-7">
-                            <label for="Ubicacion">Ubicacion</label>
+                            <label for="Ubicacion">Ubicación</label>
                             <input type="text" class="form-control" name="Ubicacion" id="Ubicacion">
                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                             <span class="text-danger">

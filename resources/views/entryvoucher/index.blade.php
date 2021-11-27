@@ -71,7 +71,7 @@
                     <table style="text-align:center;" class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Codigo</th>
+                            <th>Código</th>
                             <th>Hora de recepción</th>
                             <th>Fecha de recepción</th>
                             <th>Acciones</th>
@@ -86,21 +86,18 @@
                                 <td>
                                     <form action="{{url('/entryvoucher/'.$data->ID_vale_entrada)}}" method="post"
                                     class="formActions">
-                                        <a class="btn btn-success" href="{{ url('/entryvoucher/'.$data->ID_vale_entrada) }}">
-                                            <i class="fas fa-eye"></i>
+                                        <a class="btn btn-info" href="{{ url('/entryvoucher/'.$data->ID_vale_entrada) }}">
+                                            Detalles
                                         </a>
 
-                                        <!--
-                                        <a class="btn btn-warning" href="url('/entryvoucher/'.$data->ID_vale_entrada.'/edit')  ">
-                                            <i class="fas fa-pencil-alt"></i>
-                                        </a>-->
-                                        <a class="btn btn-primary" href="{{ url('/entryVoucherPDF/'.$data->ID_vale_entrada)  }}">
-                                            <i class="fas fa-file-pdf"></i>
+                                        
+                                        <a class="btn btn-dark " href="{{ url('/entryVoucherPDF/'.$data->ID_vale_entrada)  }}">
+                                            Reporte
                                         </a>
                                         @csrf
                                         {{ method_field('DELETE') }}
                                         <button type="submit" class="btn btn-danger " value="Borrar">
-                                            <i class="fas fa-trash"></i>
+                                            Borrar
                                         </button>
                                     </form>
                                 </td>

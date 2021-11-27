@@ -72,8 +72,8 @@
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th width="20%">Numero de Parte</th>
-                                <th width="30%">Descripcion</th>
+                                <th width="20%">Número de Parte</th>
+                                <th width="30%">Descripción</th>
                                 <th width="10%">Cantidad</th>
                                 <th width="30%">Observaciones</th>
                                 <th width="5%">Status</th>

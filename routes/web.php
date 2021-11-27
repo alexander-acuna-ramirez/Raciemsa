@@ -80,4 +80,10 @@ Route::get('/forProvDataPDF', [App\Http\Controllers\SupplierController::class, "
 Route::get("/searchPhone{id}",[App\Http\Controllers\SupplierController::class, 'searchPhone']);
 Route::get("/searchEmail/{id}",[App\Http\Controllers\SupplierController::class, 'searchEmail']);
 Route::get("/searchAddress/{id}",[App\Http\Controllers\SupplierController::class, 'searchAddress']);
+Route::POST('/material/{id}/delete', [App\Http\Controllers\MaterialController::class, 'delete'])->name('Material.delete');
+
+Route::get("/reportCatalogPDF/{id}",[App\Http\Controllers\CatalogController::class, 'reportCatalogPDF'])->name('Catalog.reportCatalogPDF');
+
+Route::get("/reporteValorizado",[App\Http\Controllers\CatalogController::class, 'reporteValorizado'])->name('Catalog.reporteValorizado');
+Route::POST('/catalog/{id}/delete', [App\Http\Controllers\CatalogController::class, 'delete'])->name('Catalog.delete');
 
