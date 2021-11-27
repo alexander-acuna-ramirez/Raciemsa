@@ -65,14 +65,17 @@ Route::get("/searchEntryVoucherDate",[App\Http\Controllers\EntryVoucherControlle
 Route::get("/entryVoucherPDF/{id}",[App\Http\Controllers\EntryVoucherController::class, 'entryVoucherPDF']);
 
 Route::resource("/supplier",\App\Http\Controllers\SupplierController::class);
-/*Route::resource("/address",\App\Http\Controllers\AddressController::class);
-Route::resource("/email",\App\Http\Controllers\EmailController::class);
-Route::resource("/phone",\App\Http\Controllers\PhoneController::class);*/
-//Route::get("/searchSupplier{id}",[App\Http\Controllers\SupplierController::class, 'searchSupplier']);
-
 Route::get("/searchSupplier",[App\Http\Controllers\SupplierController::class, 'searchSupplier']);
 Route::get('/supplierDisabledRequest', [App\Http\Controllers\SupplierController::class, "SupplierRequestDisabled"]);
+Route::get('/supplierSearchByRUC', [App\Http\Controllers\SupplierController::class, "supplierSearchByRUC"]);
+Route::get('/supplierSearchByName', [App\Http\Controllers\SupplierController::class, "supplierSearchByName"]);
+Route::get('/reportsSuppliers', [App\Http\Controllers\SupplierController::class, "reportsSuppliers"]);
+Route::post('/updateContact', [App\Http\Controllers\SupplierController::class, "updateContact"]);
+Route::get('/forProv', [App\Http\Controllers\SupplierController::class, "forProv"]);
+Route::get('/forProvData', [App\Http\Controllers\SupplierController::class, "forProvData"]);
+Route::get('/forProvDataPDF', [App\Http\Controllers\SupplierController::class, "forProvDataPDF"]);
 
+//forProvData
 //Los siguientes tengo que ver si se usaran//
 Route::get("/searchPhone{id}",[App\Http\Controllers\SupplierController::class, 'searchPhone']);
 Route::get("/searchEmail/{id}",[App\Http\Controllers\SupplierController::class, 'searchEmail']);

@@ -4,20 +4,24 @@
 <div class="container-fluid">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Proveedores</h1>
-        <a href="{{url('/supplier/create')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                class="fas fa-plus-circle text-white-50"></i>Agregar Nuevo Proveedor</a>
-        
-        
-    </div>
-    <div class="container-fluid">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div>
+            <a href="{{url('/supplier/create')}}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                    class="fas fa-plus-circle text-white-50"></i>Agregar</a>
             <a data-toggle="collapse" href="#collapseMaterial" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" aria-expanded="false" aria-controls="collapseExample">
                 <i class="fas fa-search text-white-50"></i> 
                 Búsqueda de proveedor 
             </a>
-            <a class="btn btn-secondary shadow-sm"  href="{{url('/supplierDisabledRequest')}}">
-                <i class="fas fa-eye text-white-50"></i>Ver solo proveedores deshabilitados </a>
+            <a class="btn btn-sm btn-dark shadow-sm"  href="{{url('/supplierDisabledRequest')}}">
+                <i class="fas fa-eye text-white-50"></i>Deshabilitados</a>
+
+            <a class="btn btn-sm btn-info shadow-sm"  href="{{url('/reportsSuppliers')}}">
+                <i class="fas fa-file-contract"></i> Reporte de material por proveedor</a>
+            <a class="btn btn-sm btn-warning shadow-sm"  href="{{url('/forProv')}}">
+                    <i class="fas fa-file-contract"></i> Historial de proveedor</a>
         </div>
+        
+    </div>
+    <div class="container-fluid">
         <div class="collapse" id="collapseMaterial">
             <div class="d-sm-flex align-items-center justify-content-between mb-4 ">
                 <div style="float:none;margin:auto;" class="p-0 flex-grow-2 bd-highlight">
@@ -64,7 +68,7 @@
                                         <a class="btn btn-success" href="{{url('/supplier/'.$data->Codigo_proveedor) }}">
                                             <i class="fas fa-eye"></i>   
                                         </a>
-                                        <a class="btn btn-warning" href="{{url('/supplier/'.$data->Codigo_proveedor) }}">
+                                        <a class="btn btn-warning" href="{{url('/supplier/'.$data->Codigo_proveedor).'/edit' }}">
                                             <i class="fas fa-edit"></i>   
                                         </a>
                                         @csrf 
@@ -104,8 +108,8 @@
         </script>
     @endif
     <script>
-        const form = document.querySelectorAll('.formActions')
-        forms.foreach( (form)=>{
+        const forms = document.querySelectorAll('.formActions');
+        forms.forEach( (form)=>{
             form.addEventListener("submit", function (e){
                 e.preventDefault();
                 Swal.fire({

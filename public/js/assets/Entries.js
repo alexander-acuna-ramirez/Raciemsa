@@ -74,6 +74,14 @@ function  saveEntryVoucher(){
                         timer: 1500
                     })
                     window.location.replace("/entryvoucher");
+                }else{
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Error',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    window.location.replace("/entryvoucher");
                 }
              });
     }

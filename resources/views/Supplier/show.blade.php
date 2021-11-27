@@ -1,84 +1,100 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="card shadow mb-4">
-            <div class="card-header py-2">
-                <h6 class="m-0 font-weight-bold text-primary "> Informacion del Proveedor</h6>
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Proveedores</h1>
+    </div>
+    <div class="card shadow mb-5">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Proveedor</h6>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="Codigo_proveedor">Codigo del proveedor:</label>
-                        <input type="text" class="form-control" disabled name="Codigo_proveedor" id="Codigo_proveedor" value="{{ $supplier->Codigo_proveedor}}">                       
+                    <div class="alert alert-danger d-none" id="alerts">
                     </div>
-                    <div class="col-md-5">
-                        <label for="Razon_social">Nombre o Razon Social del proveedor: </label>
-                        <input type="text" class="form-control" disabled name="Razon_social" id="Razon_social" value="{{ $supplier->Razon_social }}">
-                           
-                    </div>
-                </div>
-                <DIV class="row">
-                    
-                </DIV>
-                <div class="row">
-                    <div class="col-md-4">
-                        <label for="RUC">Numero de RUC del proveedor: </label>
-                        <input type="text" class="form-control" disabled name="RUC" id="RUC" value="{{ $supplier->RUC }}" >
+                    <div class="row">
+                        <div class="col-md-6 mt-2">
+                            <label for="Razon_Social">Codigo de proveedor </label>
+                            <input type="text" class="form-control" placeholder='{{$supplier->Codigo_proveedor}}' disabled>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <label for="RUC">Numero de RUC</label>
+                            <input type="text" class="form-control" placeholder='{{$supplier->RUC}}' disabled>
+                        </div>
+
                         <br>
                     </div>
-                    <div class="col-md-5">
-                        <label for="Email">Correo Electronico del proveedor: </label>
-                        <tbody type="text" class="form-contro l">
-                            @foreach($email as $email)
-                                <tr>
-                                    <input type="text " class="form-control" disabled name="Correo" id="Correo" value="{{ $email->Correo }}">    
-                                </tr>
-                            @endforeach
-                        </tbody>
+                    <div class="row">
+                        <div class="col-md-12 mt-2">
+                            <label for="Razon_Social">Razon Social </label>
+                            <input type="text" class="form-control" placeholder='{{$supplier->Razon_social}}' disabled autcomplete="off">
+                        </div>
                     </div>
-                </div>
-                <div class="row">
+                    <br>
+                <div class="row mt-2">
                     <div class="col-md-4">
-                        <label for="Direccion">Direccion del proveedor: </label>
-                        <tbody type="text" class="form-contro l">
-                            @foreach($address as $address)
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="80%" cellspacing="0" aling="center">
+                                <thead>
                                 <tr>
-                                    <input type="text " class="form-control" disabled name="Direccion" id="Direccion" value="{{ $address->Direccion }}">    
+                                    <th width="100%" colspan="2">Telefono</th>
                                 </tr>
-                            @endforeach
-                        </tbody>             
-                    </div>
-                
-                    <div class="col-md-5">
-                        <label for="Telefono">Telefono del proveedor: </label>
-                        <table class="table table-borderless">
-                            <tbody type="text" class="form-contro l">
-                                @foreach($phone as $phone)
+                                </thead>
+                                <tbody id="telefonoBody" >
+                                    @foreach ($phones as $phone)
                                     <tr>
-                                        <input type="text " class="form-control" disabled name="Telefono" id="Telefono" value="{{ $phone->Telefono }}">    
+                                        <td>
+                                            <input type="text" class='form-control' value="{{ $phone->Telefono }}"> 
+                                        </td>
                                     </tr>
-                                @endforeach
-                            </tbody>    
-                        </table>                                                 
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="table-responsive">
-                        <table class=" table table-bordered" width="20%">
-                            <thead>
-                                <th>
-                                    Telefono
-                                </th>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
+                    <div class="col-md-4">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="80%" cellspacing="0" aling="center">
+                                <thead>
+                                <tr>
+                                    <th width="100%" colspan="2">Correo</th>
+                                </tr>
+                                </thead>
+                                <tbody id="correoBody">
+                                    @foreach ($emails as $email)
+                                    <tr>
+                                        <td>
+                                            <input type="text" class='form-control' value="{{ $email->Correo }}"> 
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="80%" cellspacing="0" aling="center">
+                                <thead>
+                                <tr>
+                                    <th width="100%" colspan="2">Direccion</th>
+                                </tr>
+                                </thead>
+                                <tbody id="direccionBody">
+                                    @foreach ($addresses as $add)
+                                    <tr>
+                                        <td>
+                                            <input type="text" class='form-control' value="{{ $add->Direccion }}"> 
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
-
-    </div>
+</div>
 @endsection

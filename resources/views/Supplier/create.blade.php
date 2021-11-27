@@ -15,12 +15,11 @@
                     <div class="row">
                         <div class="col-md-6 mt-2">
                             <label for="Razon_Social">Razon Social </label>
-                            <input type="text" class="form-control" name="Razon_Social" id="Razon_Social" placeholder="Nombre de la empresa">
+                            <input type="text" class="form-control" name="Razon_Social" id="Razon_Social" onchange="changeName(this)" placeholder="Nombre de la empresa" maxlength="50">
                         </div>
                         <div class="col-md-6 mt-2">
                             <label for="RUC">Numero de RUC</label>
-                            <input type="text" class="form-control" name="Razon_social" id="Razon_social" placeholder="Debe tener 11 digitos">
-    
+                            <input type="text" class="form-control" name="RUC" id="RUC" onchange="changeRUC(this)" placeholder="Debe tener 11 digitos" minlength="11" maxlength="11">
                         </div>
                         <br>
                     </div>
@@ -31,13 +30,13 @@
                             <table class="table table-bordered" id="dataTable" width="80%" cellspacing="0" aling="center">
                                 <thead>
                                 <tr>
-                                    <th width="100%">Telefono</th>
+                                    <th width="100%" colspan="2">Telefono</th>
                                 </tr>
                                 </thead>
-                                <tbody id="telefonoBody">
+                                <tbody id="telefonoBody" >
                                     <tr>
-                                        <td>
-                                            <button id="addSupplier" class="btn btn-primary" title="Agregar proveedor">
+                                        <td colspan="2">
+                                            <button id="btnAddTelefono" class="btn btn-primary form-control" title="Agregar telefono" >
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </td>
@@ -51,13 +50,13 @@
                             <table class="table table-bordered" id="dataTable" width="80%" cellspacing="0" aling="center">
                                 <thead>
                                 <tr>
-                                    <th width="100%">Correo</th>
+                                    <th width="100%" colspan="2">Correo</th>
                                 </tr>
                                 </thead>
                                 <tbody id="correoBody">
                                     <tr>
-                                        <td>
-                                            <button id="addSupplier" class="btn btn-primary" title="Agregar proveedor">
+                                        <td colspan="2"> 
+                                            <button id="btnAddCorreo" class="btn btn-primary form-control"  title="Agregar correo">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </td>
@@ -71,13 +70,13 @@
                             <table class="table table-bordered" id="dataTable" width="80%" cellspacing="0" aling="center">
                                 <thead>
                                 <tr>
-                                    <th width="100%">Direccion</th>
+                                    <th width="100%" colspan="2">Direccion</th>
                                 </tr>
                                 </thead>
                                 <tbody id="direccionBody">
                                     <tr>
-                                        <td>
-                                            <button id="addSupplier" class="btn btn-primary" title="Agregar proveedor">
+                                        <td colspan="2">
+                                            <button id="btnAddDireccion" class="btn btn-primary form-control"  title="Agregar direccion">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </td>
