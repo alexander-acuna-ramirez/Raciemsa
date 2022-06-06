@@ -2,8 +2,9 @@
 
 @section('content')
 <div class="container-fluid">
-@if ($errors->any())
+@if (isset($errors) && $errors->any())
     <div class="alert alert-danger" role="alert">
+
         @foreach ($errors->all() as $error )
             <li style="list-style: none">
                 {{ $error }}
@@ -11,6 +12,7 @@
         @endforeach
     </div>
 @endif
+
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Guía de Remisión</h1>
     </div>

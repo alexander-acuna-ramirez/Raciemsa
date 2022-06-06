@@ -121,6 +121,7 @@ class GuideController extends Controller
             . $validated['Fin_traslado'] . "','" . $validated['Codigo_proveedor'] . "')");
         
         return redirect('/guide');
+        
     }
 
     public function show(Guide $guide)
